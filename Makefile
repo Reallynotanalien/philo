@@ -6,7 +6,7 @@
 #    By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/05 20:32:19 by kafortin          #+#    #+#              #
-#    Updated: 2023/04/21 18:21:56 by kafortin         ###   ########.fr        #
+#    Updated: 2023/04/21 18:25:33 by kafortin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ NAME = philo
 
 MAKE_LIBFT = cd ./Libft/ && make
 
-FILES = ./srcs/philosophers.c
+FILES = ./srcs/philo.c
 
 OBJS = $(FILES:.c=.o)
 
