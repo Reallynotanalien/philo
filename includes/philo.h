@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/04/21 19:47:59 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/04/21 19:49:07 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@
 
 typedef struct philo
 {
-}			t_philo
+}			t_philo;
 
 typedef struct data
 {
-}			t_data
+}			t_data;
 
 #endif
