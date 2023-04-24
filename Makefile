@@ -6,7 +6,7 @@
 #    By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/05 20:32:19 by kafortin          #+#    #+#              #
-#    Updated: 2023/04/21 18:25:33 by kafortin         ###   ########.fr        #
+#    Updated: 2023/04/24 16:08:06 by kafortin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,8 @@ CFLAGS = -Wall -Wextra -Werror
 
 NAME = philo
 
-MAKE_LIBFT = cd ./Libft/ && make
-
-FILES = ./srcs/philo.c
+FILES = ./srcs/philo.c \
+		./srcs/exit_management.c \
 
 OBJS = $(FILES:.c=.o)
 
@@ -29,18 +28,14 @@ RM = @rm -f
 all: $(NAME)
 		
 $(NAME): $(OBJS)
-		@$(MAKE_LIBFT)
-		@echo "Compiling so_long..."
-		@$(CC) $(CFLAGS) $(OBJS) ./Libft/libft.a $(NAME)
+		@echo "Compiling philo..."
+		@$(CC) $(CFLAGS) $(OBJS)
 		@echo "Completed! 🤠"
 		
 clean:
-		@$(MAKE) clean -C ./Libft
 		$(RM) $(OBJS)
 		
 fclean: 
-		@$(MAKE) fclean -C ./Libft
-		@$(MAKE) clean -C ./Minilibx
 		$(RM) $(OBJS)
 		$(RM) $(NAME)
 
