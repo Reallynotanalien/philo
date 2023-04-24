@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:20:04 by kafortin          #+#    #+#             */
-/*   Updated: 2023/04/24 18:22:14 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/04/24 18:26:35 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,12 @@ int	main(int argc, char **argv)
 	init_data(argc, argv, &data);
 	init_philos(&data);
 	printf("I'm about to create the threads!\n");
-	pthread_create(&t1, NULL, &life_of_a_philo, NULL);
-	pthread_create(&t2, NULL, &life_of_a_philo, NULL);
-	pthread_join(t1, NULL);
-	pthread_join(t2, NULL);
+	if (pthread_create(&t1, NULL, &life_of_a_philo, NULL) != 0)
+		exit_error("Thread error\n");
+	if (pthread_create(&t2, NULL, &life_of_a_philo, NULL) != 0)
+		exit_error("Thread error\n");
+	if (pthread_join(t1, NULL) != 0)
+		exit_error("Thread join error\n");
+	if (pthread_join(t2, NULL) != 0)
+		exit_error("Thread join error\n");
 }
