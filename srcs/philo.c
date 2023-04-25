@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:20:04 by kafortin          #+#    #+#             */
-/*   Updated: 2023/04/24 18:26:35 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/04/25 18:56:24 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,22 @@ void	init_data(int argc, char **argv, t_data *data)
 int	main(int argc, char **argv)
 {
 	t_data		data;
-	pthread_t	t1;
-	pthread_t	t2;
+	pthread_t	th[10];
+	int			i;
 
+	i = 0;
 	if (argc > 6 || argc < 5)
 		exit_error(ARG_NUM_ERROR);
 	memset(&data, 0, sizeof(t_data));
 	init_data(argc, argv, &data);
-	init_philos(&data);
+	// init_philos(&data);
 	printf("I'm about to create the threads!\n");
-	if (pthread_create(&t1, NULL, &life_of_a_philo, NULL) != 0)
-		exit_error("Thread error\n");
-	if (pthread_create(&t2, NULL, &life_of_a_philo, NULL) != 0)
-		exit_error("Thread error\n");
-	if (pthread_join(t1, NULL) != 0)
-		exit_error("Thread join error\n");
-	if (pthread_join(t2, NULL) != 0)
-		exit_error("Thread join error\n");
+	while (i < 10)
+	{
+		if (pthread_create(&th[i], NULL, &life_of_a_philo, NULL) != 0)
+			exit_error("Thread error\n");
+		if (pthread_join(th[i], NULL) != 0)
+			exit_error("Thread join error\n");
+		i++;
+	}
 }
