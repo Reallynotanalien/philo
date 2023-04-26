@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:20:04 by kafortin          #+#    #+#             */
-/*   Updated: 2023/04/26 18:20:32 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/04/26 18:25:10 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	init_philos(t_philo *philo, pthread_mutex_t lock)
 		if (pthread_create(&philo[i].th, NULL, &life_of_a_philo,
 				(void *)&lock) != 0)
 			exit_error("Thread error\n");
+		philo[i].id = i + 1;
+		printf("%i\n", philo[i].id);
 		i++;
 	}
 }
@@ -55,7 +57,6 @@ int	main(int argc, char **argv)
 	pthread_mutex_t	lock;
 	int				i;
 
-	i = 0;
 	if (argc > 6 || argc < 5)
 		exit_error(ARG_NUM_ERROR);
 	memset(&data, 0, sizeof(t_data));

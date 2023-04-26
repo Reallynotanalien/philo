@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/04/26 18:01:22 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/04/26 18:24:09 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct data
 typedef struct philo
 {
 	t_data		*data;
+	int			id;
 	pthread_t	th;
 }			t_philo;
 
