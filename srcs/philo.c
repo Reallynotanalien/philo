@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:20:04 by kafortin          #+#    #+#             */
-/*   Updated: 2023/04/26 18:16:36 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/04/26 18:20:32 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	main(int argc, char **argv)
 	pthread_mutex_init(&lock, NULL);
 	init_philos(philo, lock);
 	i = 0;
-	while (i < 10)
+	while (philo->data->num_philos > i)
 	{
 		if (pthread_join(philo[i].th, NULL) != 0)
 			exit_error("Thread join error\n");

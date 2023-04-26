@@ -6,7 +6,7 @@
 #    By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/05 20:32:19 by kafortin          #+#    #+#              #
-#    Updated: 2023/04/24 17:55:01 by kafortin         ###   ########.fr        #
+#    Updated: 2023/04/26 18:18:11 by kafortin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ all: $(NAME)
 		
 $(NAME): $(OBJS)
 		@echo "Compiling philo..."
-		@$(CC) $(CFLAGS) $(OBJS)
+		@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 		@echo "Completed! 🤠"
 		
 clean:
