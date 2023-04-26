@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/04/24 17:53:02 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/04/26 18:01:22 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,6 @@
 # define FORK_INIT_ERROR "Error while initializing the forks\n"
 
 /*STRUCTS*/
-typedef struct philo
-{
-	void		*data;
-}			t_philo;
-
 typedef struct data
 {
 	int				num_philos;
@@ -42,6 +37,13 @@ typedef struct data
 	int				num_meals;
 	pthread_mutex_t	*fork;
 }			t_data;
+
+typedef struct philo
+{
+	t_data		*data;
+	pthread_t	th;
+}			t_philo;
+
 
 /*exit_management*/
 void	exit_error(char *error);
