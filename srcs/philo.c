@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:20:04 by kafortin          #+#    #+#             */
-/*   Updated: 2023/04/27 18:11:03 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/04/27 18:16:32 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ long int	get_time(void)
 
 	gettimeofday(&now, NULL);
 	return ((now.tv_sec * 1000) + (now.tv_usec / 1000));
+}
+
+long int	sleeping(t_data *data)
+{
+	printf("%ld %i is sleeping\n");
+	usleep(data->time_to_sleep * 1000);
 }
 
 void	*life_of_a_philo(void *lock)
