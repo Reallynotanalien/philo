@@ -6,7 +6,7 @@
 #    By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/05 20:32:19 by kafortin          #+#    #+#              #
-#    Updated: 2023/04/26 18:18:11 by kafortin         ###   ########.fr        #
+#    Updated: 2023/04/27 15:45:02 by kafortin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ CFLAGS = -Wall -Wextra -Werror
 NAME = philo
 
 FILES = ./srcs/philo.c \
+		./srcs/init.c \
 		./srcs/exit_management.c \
 		./srcs/utils.c \
 

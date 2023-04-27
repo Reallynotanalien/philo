@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/04/26 18:24:09 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/04/27 18:03:00 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,30 @@ typedef struct data
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				num_meals;
-	pthread_mutex_t	*fork;
+	long int		beginning;
 }			t_data;
 
 typedef struct philo
 {
-	t_data		*data;
-	int			id;
-	pthread_t	th;
+	t_data			*data;
+	int				id;
+	pthread_t		th;
+	// pthread_mutex_t	*left_fork;
+	// pthread_mutex_t	*right_fork;
 }			t_philo;
 
+void		*life_of_a_philo(void *lock);
+long int	get_time(void);
 
 /*exit_management*/
-void	exit_error(char *error);
+void		exit_error(char *error);
+
+/*init*/
+void		init_philos(t_philo *philo, pthread_mutex_t lock);
+void		init_data(int argc, char **argv, t_data *data);
 
 /*utils.c*/
-size_t	ft_strlen(const char *str);
-long	ft_atoi(const char *str);
+size_t		ft_strlen(const char *str);
+long		ft_atoi(const char *str);
 
 #endif
