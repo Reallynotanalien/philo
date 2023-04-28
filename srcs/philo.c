@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:20:04 by kafortin          #+#    #+#             */
-/*   Updated: 2023/04/27 18:16:32 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/04/28 18:39:41 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,22 @@ long int	get_time(void)
 	return ((now.tv_sec * 1000) + (now.tv_usec / 1000));
 }
 
-long int	sleeping(t_data *data)
-{
-	printf("%ld %i is sleeping\n");
-	usleep(data->time_to_sleep * 1000);
-}
+// long int	sleeping(t_data *data)
+// {
+// 	printf("%ld %i is sleeping\n");
+// 	usleep(data->time_to_sleep * 1000);
+// }
 
 void	*life_of_a_philo(void *lock)
 {
 	pthread_mutex_lock(lock);
-	printf("I think,\n");
-	usleep(10423);
+	/*I need 2 forks to eat!!*/
 	printf("I eat,\n");
-	usleep(15440);
+	usleep(10423);
 	printf("I sleep.\n");
+	usleep(15440);
+	/*Philos think between eating and sleeping. If there is no delay between the two, he still thinks but then starts eating right away.*/
+	printf("I think,\n");
 	pthread_mutex_unlock(lock);
 	return (NULL);
 }
@@ -67,4 +69,8 @@ int	main(int argc, char **argv)
 		i++;
 	}
 	pthread_mutex_destroy(&lock);
+	/*Don't forget to limit the number of philos to 200!!*/
+	/*If there is only one philosopher, the program must run until he dies because he only has one fork*/
+	/*Gérer qu'aucuns paramètres peut être en bas de 60 ms*/
+	/*Timer for last meal starts as soon as the philo starts to eat*/
 }

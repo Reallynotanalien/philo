@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/04/27 18:03:00 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/04/28 16:58:04 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct philo
 	t_data			*data;
 	int				id;
 	pthread_t		th;
-	// pthread_mutex_t	*left_fork;
+	// pthread_mutex_t	left_fork;
 	// pthread_mutex_t	*right_fork;
 }			t_philo;
 
