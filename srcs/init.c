@@ -6,30 +6,44 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 15:36:21 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/08 16:06:31 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/08 17:31:29 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void	init_philos(t_philo *philo, pthread_mutex_t lock)
+void	init_philos(t_philo *philo)
 {
 	int	i;
 
 	i = 0;
 	while (philo->data->num_philos > i)
 	{
-		if (pthread_create(&philo[i].th, NULL, &life_of_a_philo,
-				(void *)&lock) != 0)
+		if (pthread_create(&philo[i].th, NULL, &life_of_a_philo, &philo) != 0)
 			exit_error("Thread error\n");
 		philo[i].id = i + 1;
-		pthread_mutex_init(&philo[i].right_fork, NULL);
+		philo[i].right_fork = &philo->data->fork[i];
 		if (i == 0)
-			philo[i].left_fork = &philo[philo->data->num_philos - 1].right_fork;
+			philo[i].left_fork = &philo->data->fork[philo->data->num_philos - 1];
 		else
-			philo[i].left_fork = &philo[i - 1].right_fork;
-		printf("Philo[%i] right: %p\n", i, &philo[i].right_fork);
-		printf("Philo[%i] left: %p\n", i, &philo[i + 1].left_fork);
+			philo[i].left_fork = &philo->data->fork[i - 1];
+		printf("Philo[%i] right: %p\n", i, philo[i].right_fork);
+		printf("Philo[%i] left: %p\n", i, philo[i].left_fork);
+		i++;
+	}
+}
+
+void	init_forks(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	data->fork = malloc(sizeof(pthread_mutex_t) * data->num_philos);
+	while (data->num_philos > i)
+	{
+		if (pthread_mutex_init(&data->fork[i], NULL) == -1)
+			exit_error("ERROR CREATING FORKS\n");
+		printf("Fork[%i]: %p\n", i, &data->fork[i]);
 		i++;
 	}
 }
@@ -38,13 +52,13 @@ void	init_data(int argc, char **argv, t_data *data)
 {
 	data->num_philos = ft_atoi(argv[1]);
 	if (data->num_philos > 200)
-		exit(1);
+		exit_error("There is too many philos!!!\n");
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);
 	if (data->time_to_die < 60 || data->time_to_eat < 60
 		|| data->time_to_sleep < 60)
-		exit(1);
+		exit_error("The time should be bigger than 60ms\n");
 	if (argc == 6)
 		data->num_meals = ft_atoi(argv[5]);
 	data->beginning = get_time();
