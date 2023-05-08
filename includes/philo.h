@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/08 17:40:01 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/08 18:33:26 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,13 @@
 # define ARG_NUM_ERROR "The arguments sent \n"
 # define FORK_CREATION_ERROR "The forks could not be created properly\n"
 # define FORK_INIT_ERROR "Error while initializing the forks\n"
+
+/*LOGS*/
+# define FORK "has taken a fork"
+# define EAT "is eating"
+# define SLEEP "is sleeping"
+# define THINK "is thinking"
+# define DIE "died"
 
 /*STRUCTS*/
 typedef struct data
@@ -56,7 +63,7 @@ long int	get_time(void);
 void		exit_error(char *error);
 
 /*init*/
-void		init_philos(t_philo *philo);
+void		init_philos(t_philo *philo, t_data *data);
 void		init_forks(t_data *data);
 void		init_data(int argc, char **argv, t_data *data);
 

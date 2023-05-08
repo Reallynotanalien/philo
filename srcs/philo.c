@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:20:04 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/08 17:43:36 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/08 18:34:52 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,17 @@ void	*life_of_a_philo(void *i)
 	t_philo	*philo;
 
 	philo = (t_philo *)i;
-	// pthread_mutex_lock(lock);
-	/*I need 2 forks to eat!!*/
-	printf("Philo[%i] in thread\n", philo->id);
-	printf("%p\n", philo);
-	printf("I eat,\n");
+	pthread_mutex_lock(philo->right_fork);
+	printf("%i %i %s %p\n", 60, philo->id, FORK, philo->right_fork);
+	pthread_mutex_lock(philo->left_fork);
+	printf("%i %i %s %p\n", 60, philo->id, FORK, philo->left_fork);
 	usleep(10423);
-	printf("I sleep.\n");
+	pthread_mutex_unlock(philo->right_fork);
+	pthread_mutex_unlock(philo->left_fork);
+	printf("%i I sleep.\n", philo->id);
 	usleep(15440);
 	/*Philos think between eating and sleeping. If there is no delay between the two, he still thinks but then starts eating right away.*/
-	printf("I think,\n");
-	// pthread_mutex_unlock(lock);
+	printf("%i I think,\n", philo->id);
 	return (NULL);
 }
 
@@ -60,7 +60,7 @@ int	main(int argc, char **argv)
 	philo->data = data;
 	pthread_mutex_init(&lock, NULL);
 	init_forks(data);
-	init_philos(philo);
+	init_philos(philo, data);
 	i = 0;
 	while (philo->data->num_philos > i)
 	{
