@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:20:04 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/08 17:27:32 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/08 17:43:36 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,14 @@ long int	get_time(void)
 // 	usleep(data->time_to_sleep * 1000);
 // }
 
-void	*life_of_a_philo(void *philo)
+void	*life_of_a_philo(void *i)
 {
+	t_philo	*philo;
+
+	philo = (t_philo *)i;
 	// pthread_mutex_lock(lock);
 	/*I need 2 forks to eat!!*/
+	printf("Philo[%i] in thread\n", philo->id);
 	printf("%p\n", philo);
 	printf("I eat,\n");
 	usleep(10423);
@@ -54,7 +58,6 @@ int	main(int argc, char **argv)
 	init_data(argc, argv, data);
 	philo = malloc(sizeof(t_philo) * data->num_philos);
 	philo->data = data;
-	printf("data: %p, philo->data: %p\n", data, philo->data);
 	pthread_mutex_init(&lock, NULL);
 	init_forks(data);
 	init_philos(philo);

@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 15:36:21 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/08 17:31:29 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/08 17:46:08 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,15 @@ void	init_philos(t_philo *philo)
 	i = 0;
 	while (philo->data->num_philos > i)
 	{
-		if (pthread_create(&philo[i].th, NULL, &life_of_a_philo, &philo) != 0)
-			exit_error("Thread error\n");
 		philo[i].id = i + 1;
+		if (pthread_create(&philo[i].th, NULL, &life_of_a_philo, &philo[i]) != 0)
+			exit_error("Thread error\n");
+		printf("Philo[%i]\n", philo[i].id);
 		philo[i].right_fork = &philo->data->fork[i];
 		if (i == 0)
 			philo[i].left_fork = &philo->data->fork[philo->data->num_philos - 1];
 		else
 			philo[i].left_fork = &philo->data->fork[i - 1];
-		printf("Philo[%i] right: %p\n", i, philo[i].right_fork);
-		printf("Philo[%i] left: %p\n", i, philo[i].left_fork);
 		i++;
 	}
 }
@@ -43,7 +42,6 @@ void	init_forks(t_data *data)
 	{
 		if (pthread_mutex_init(&data->fork[i], NULL) == -1)
 			exit_error("ERROR CREATING FORKS\n");
-		printf("Fork[%i]: %p\n", i, &data->fork[i]);
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/08 17:15:26 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/08 17:40:01 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct philo
 	pthread_mutex_t	*right_fork;
 }			t_philo;
 
-void		*life_of_a_philo(void *philo);
+void		*life_of_a_philo(void *i);
 long int	get_time(void);
 
 /*exit_management*/
