@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 15:36:21 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/08 18:26:32 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/08 18:41:53 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,20 @@ void	init_philos(t_philo *philo, t_data *data)
 	int	i;
 
 	i = 0;
-	while (philo->data->num_philos > i)
+	while (data->num_philos > i)
 	{
 		philo[i].id = i + 1;
 		philo[i].right_fork = &data->fork[i];
 		i++;
 	}
 	i = 0;
-	while (philo->data->num_philos > i)
+	while (data->num_philos > i)
 	{
 		if (i == 0)
-			philo[i].left_fork = philo[philo->data->num_philos - 1].right_fork;
+			philo[i].left_fork = philo[data->num_philos - 1].right_fork;
 		else
 			philo[i].left_fork = philo[i - 1].right_fork;
+		philo[i].data = data;
 		if (pthread_create(&philo[i].th, NULL, &life_of_a_philo, &philo[i]) != 0)
 			exit_error("Thread error\n");
 		i++;

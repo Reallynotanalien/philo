@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:20:04 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/08 18:34:52 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/08 19:14:25 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,28 +20,50 @@ long int	get_time(void)
 	return ((now.tv_sec * 1000) + (now.tv_usec / 1000));
 }
 
-// long int	sleeping(t_data *data)
-// {
-// 	printf("%ld %i is sleeping\n");
-// 	usleep(data->time_to_sleep * 1000);
-// }
+void	waiting(long int ms)
+{
+	long int	wait_until;
+
+	wait_until = get_time() + ms;
+	while (1)
+	{
+		if (get_time() >= wait_until)
+			return ;
+		usleep(50);
+	}
+}
+
+void	thinking(t_philo *philo)
+{
+	printf("%li %i %s\n", (get_time() - philo->data->beginning), philo->id, THINK);
+}
+
+void	sleeping(t_philo *philo)
+{
+	printf("%li %i %s\n", (get_time() - philo->data->beginning), philo->id, SLEEP);
+	waiting(philo->data->time_to_sleep);
+}
+
+void	eating(t_philo *philo)
+{
+	pthread_mutex_lock(philo->right_fork);
+	printf("%li %i %s", (get_time() - philo->data->beginning), philo->id, FORK);
+	pthread_mutex_lock(philo->left_fork);
+	printf("%li %i %s", (get_time() - philo->data->beginning), philo->id, FORK);
+	waiting(philo->data->time_to_eat);
+	pthread_mutex_unlock(philo->right_fork);
+	pthread_mutex_unlock(philo->left_fork);
+}
 
 void	*life_of_a_philo(void *i)
 {
-	t_philo	*philo;
+	t_philo		*philo;
 
 	philo = (t_philo *)i;
-	pthread_mutex_lock(philo->right_fork);
-	printf("%i %i %s %p\n", 60, philo->id, FORK, philo->right_fork);
-	pthread_mutex_lock(philo->left_fork);
-	printf("%i %i %s %p\n", 60, philo->id, FORK, philo->left_fork);
-	usleep(10423);
-	pthread_mutex_unlock(philo->right_fork);
-	pthread_mutex_unlock(philo->left_fork);
-	printf("%i I sleep.\n", philo->id);
-	usleep(15440);
+	eating(philo);
+	thinking(philo);
+	sleeping(philo);
 	/*Philos think between eating and sleeping. If there is no delay between the two, he still thinks but then starts eating right away.*/
-	printf("%i I think,\n", philo->id);
 	return (NULL);
 }
 
@@ -57,18 +79,16 @@ int	main(int argc, char **argv)
 	data = malloc(sizeof(t_data));
 	init_data(argc, argv, data);
 	philo = malloc(sizeof(t_philo) * data->num_philos);
-	philo->data = data;
 	pthread_mutex_init(&lock, NULL);
 	init_forks(data);
 	init_philos(philo, data);
 	i = 0;
-	while (philo->data->num_philos > i)
+	while (data->num_philos > i)
 	{
 		if (pthread_join(philo[i].th, NULL) != 0)
 			exit_error("Thread join error\n");
 		data->now = get_time();
 		data->now -= data->beginning;
-		printf("time: %ld\nphilo[%i]\n", data->now, philo[i].id);
 		free(&philo[i]);
 		i++;
 	}

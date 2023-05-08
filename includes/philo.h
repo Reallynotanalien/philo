@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/08 18:33:26 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/08 18:52:07 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define FORK_INIT_ERROR "Error while initializing the forks\n"
 
 /*LOGS*/
-# define FORK "has taken a fork"
+# define FORK "has taken a fork\n"
 # define EAT "is eating"
 # define SLEEP "is sleeping"
 # define THINK "is thinking"
