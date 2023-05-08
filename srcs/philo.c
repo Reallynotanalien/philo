@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:20:04 by kafortin          #+#    #+#             */
-/*   Updated: 2023/04/28 18:39:41 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/08 16:08:55 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,7 @@ int	main(int argc, char **argv)
 	t_philo			*philo;
 	pthread_mutex_t	lock;
 	int				i;
-	long int		now;
-	long int		beginning;
 
-	beginning = get_time();
 	if (argc > 6 || argc < 5)
 		exit_error(ARG_NUM_ERROR);
 	memset(&data, 0, sizeof(t_data));
@@ -63,14 +60,12 @@ int	main(int argc, char **argv)
 	{
 		if (pthread_join(philo[i].th, NULL) != 0)
 			exit_error("Thread join error\n");
-		now = get_time();
-		now -= beginning;
-		printf("time: %ld\nphilo[%i]\n", now, philo[i].id);
+		data.now = get_time();
+		data.now -= data.beginning;
+		printf("time: %ld\nphilo[%i]\n", data.now, philo[i].id);
 		i++;
 	}
 	pthread_mutex_destroy(&lock);
-	/*Don't forget to limit the number of philos to 200!!*/
 	/*If there is only one philosopher, the program must run until he dies because he only has one fork*/
-	/*Gérer qu'aucuns paramètres peut être en bas de 60 ms*/
 	/*Timer for last meal starts as soon as the philo starts to eat*/
 }
