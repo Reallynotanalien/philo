@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:20:04 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/08 19:14:25 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/09 18:32:26 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ void	waiting(long int ms)
 
 void	thinking(t_philo *philo)
 {
-	printf("%li %i %s\n", (get_time() - philo->data->beginning), philo->id, THINK);
+	printf("%li %i %s", (get_time() - philo->data->beginning), philo->id, THINK);
 }
 
 void	sleeping(t_philo *philo)
 {
-	printf("%li %i %s\n", (get_time() - philo->data->beginning), philo->id, SLEEP);
+	printf("%li %i %s", (get_time() - philo->data->beginning), philo->id, SLEEP);
 	waiting(philo->data->time_to_sleep);
 }
 
@@ -50,6 +50,7 @@ void	eating(t_philo *philo)
 	printf("%li %i %s", (get_time() - philo->data->beginning), philo->id, FORK);
 	pthread_mutex_lock(philo->left_fork);
 	printf("%li %i %s", (get_time() - philo->data->beginning), philo->id, FORK);
+	printf("%li %i %s", (get_time() - philo->data->beginning), philo->id, EAT);
 	waiting(philo->data->time_to_eat);
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
@@ -60,9 +61,19 @@ void	*life_of_a_philo(void *i)
 	t_philo		*philo;
 
 	philo = (t_philo *)i;
-	eating(philo);
-	thinking(philo);
-	sleeping(philo);
+	while (philo->status != END)
+	{
+		if (philo->data->num_meals != 0)
+		{
+			if(philo->data->num_meals > philo->meals)
+				philo->meals++;
+			else if (philo->data->num_meals == philo->meals)
+				philo->status = END;
+		}
+		eating(philo);
+		sleeping(philo);
+		thinking(philo);
+	}
 	/*Philos think between eating and sleeping. If there is no delay between the two, he still thinks but then starts eating right away.*/
 	return (NULL);
 }

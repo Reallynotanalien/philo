@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 15:36:21 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/08 18:41:53 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/09 18:33:55 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	init_philos(t_philo *philo, t_data *data)
 	while (data->num_philos > i)
 	{
 		philo[i].id = i + 1;
+		philo[i].status = 0;
+		philo[i].meals = 1;
 		philo[i].right_fork = &data->fork[i];
 		i++;
 	}

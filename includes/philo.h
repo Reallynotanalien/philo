@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/08 18:52:07 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/09 18:28:08 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <pthread.h>
 # include <sys/time.h>
 
+# define END 1
+
 /*ERROR MESSAGES*/
 # define ARG_NUM_ERROR "The arguments sent \n"
 # define FORK_CREATION_ERROR "The forks could not be created properly\n"
@@ -29,10 +31,10 @@
 
 /*LOGS*/
 # define FORK "has taken a fork\n"
-# define EAT "is eating"
-# define SLEEP "is sleeping"
-# define THINK "is thinking"
-# define DIE "died"
+# define EAT "is eating\n"
+# define SLEEP "is sleeping\n"
+# define THINK "is thinking\n"
+# define DIE "died\n"
 
 /*STRUCTS*/
 typedef struct data
@@ -51,6 +53,8 @@ typedef struct philo
 {
 	t_data			*data;
 	int				id;
+	int				status;
+	int				meals;
 	pthread_t		th;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
