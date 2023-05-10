@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:20:04 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/09 18:32:26 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/10 16:15:15 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	*life_of_a_philo(void *i)
 	t_philo		*philo;
 
 	philo = (t_philo *)i;
-	while (philo->status != END)
+	while (philo->status != END && philo->status != DEAD)
 	{
 		if (philo->data->num_meals != 0)
 		{
@@ -78,22 +78,52 @@ void	*life_of_a_philo(void *i)
 	return (NULL);
 }
 
+void	*check_on_philos(void *p)
+{
+	t_philo			*philo;
+	// pthread_mutex_t	death;
+	int				i;
+
+	philo = (t_philo *)p;
+	// printf("YO I'M CHECKING ON PHILOS NOW\n");
+	while (1)
+	{
+		i = 0;
+		while (i < philo[0].data->num_philos)
+		{
+			// printf("\nphilo[%i], status == %i\n", i, philo[i].status);
+			if (philo[i].status == DEAD)
+			{
+				printf("%li %i %s", (get_time() - philo->data->beginning), philo[i].id, DIE);
+				return (&philo->status);
+			}
+			// printf("OK I CHECKED THE STATUS HE IS NOT DEAD\n");
+			i++;
+			// printf("philo[%i].data->num_philos: %i\n", i, philo[0].data->num_philos);
+		}
+	}
+	// printf("HEY I AM DONE CHECKING ON PHILOS\n");
+	return (NULL);
+}
+
 int	main(int argc, char **argv)
 {
 	t_data			*data;
 	t_philo			*philo;
-	pthread_mutex_t	lock;
 	int				i;
+	pthread_t		guardian;
 
 	if (argc > 6 || argc < 5)
 		exit_error(ARG_NUM_ERROR);
 	data = malloc(sizeof(t_data));
 	init_data(argc, argv, data);
 	philo = malloc(sizeof(t_philo) * data->num_philos);
-	pthread_mutex_init(&lock, NULL);
 	init_forks(data);
 	init_philos(philo, data);
 	i = 0;
+	if (pthread_create(&guardian, NULL, &check_on_philos, philo) != 0)
+		exit_error("Thread error\n");
+	pthread_detach(guardian);
 	while (data->num_philos > i)
 	{
 		if (pthread_join(philo[i].th, NULL) != 0)
@@ -104,7 +134,7 @@ int	main(int argc, char **argv)
 		i++;
 	}
 	free(philo);
-	pthread_mutex_destroy(&lock);
+	// pthread_mutex_destroy(&death);
 	/*If there is only one philosopher, the program must run until he dies because he only has one fork*/
 	/*Timer for last meal starts as soon as the philo starts to eat*/
 }

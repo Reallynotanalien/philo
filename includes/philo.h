@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/09 18:28:08 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/10 16:08:11 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/time.h>
 
 # define END 1
+# define DEAD 2
 
 /*ERROR MESSAGES*/
 # define ARG_NUM_ERROR "The arguments sent \n"
@@ -30,11 +31,11 @@
 # define FORK_INIT_ERROR "Error while initializing the forks\n"
 
 /*LOGS*/
-# define FORK "has taken a fork\n"
-# define EAT "is eating\n"
-# define SLEEP "is sleeping\n"
-# define THINK "is thinking\n"
-# define DIE "died\n"
+# define FORK "has taken a fork 🍴\n"
+# define EAT "is eating 🍝\n"
+# define SLEEP "is sleeping 💤\n"
+# define THINK "is thinking 💭\n"
+# define DIE "died ☠️\n"
 
 /*STRUCTS*/
 typedef struct data

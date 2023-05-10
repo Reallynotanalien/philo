@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 15:36:21 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/09 18:33:55 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/10 14:50:20 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_philos(t_philo *philo, t_data *data)
 {
-	int	i;
+	int			i;
 
 	i = 0;
 	while (data->num_philos > i)
