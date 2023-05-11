@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/10 16:08:11 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/10 19:55:16 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ typedef struct data
 	long int		beginning;
 	long int		now;
 	pthread_mutex_t	*fork;
+	pthread_mutex_t	*write_access;
+	pthread_mutex_t	*death;
 }			t_data;
 
 typedef struct philo

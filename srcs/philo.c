@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:20:04 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/10 16:15:15 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/10 19:59:58 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,32 @@ void	waiting(long int ms)
 
 void	thinking(t_philo *philo)
 {
+	pthread_mutex_lock(philo->data->write_access);
 	printf("%li %i %s", (get_time() - philo->data->beginning), philo->id, THINK);
+	pthread_mutex_unlock(philo->data->write_access);
 }
 
 void	sleeping(t_philo *philo)
 {
+	pthread_mutex_lock(philo->data->write_access);
 	printf("%li %i %s", (get_time() - philo->data->beginning), philo->id, SLEEP);
+	pthread_mutex_unlock(philo->data->write_access);
 	waiting(philo->data->time_to_sleep);
 }
 
 void	eating(t_philo *philo)
 {
 	pthread_mutex_lock(philo->right_fork);
+	pthread_mutex_lock(philo->data->write_access);
 	printf("%li %i %s", (get_time() - philo->data->beginning), philo->id, FORK);
+	pthread_mutex_unlock(philo->data->write_access);
 	pthread_mutex_lock(philo->left_fork);
+	pthread_mutex_lock(philo->data->write_access);
 	printf("%li %i %s", (get_time() - philo->data->beginning), philo->id, FORK);
+	pthread_mutex_unlock(philo->data->write_access);
+	pthread_mutex_lock(philo->data->write_access);
 	printf("%li %i %s", (get_time() - philo->data->beginning), philo->id, EAT);
+	pthread_mutex_unlock(philo->data->write_access);
 	waiting(philo->data->time_to_eat);
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
@@ -66,7 +76,11 @@ void	*life_of_a_philo(void *i)
 		if (philo->data->num_meals != 0)
 		{
 			if(philo->data->num_meals > philo->meals)
+			{
+				pthread_mutex_lock(philo->data->write_access);
 				philo->meals++;
+				pthread_mutex_unlock(philo->data->write_access);
+			}
 			else if (philo->data->num_meals == philo->meals)
 				philo->status = END;
 		}
@@ -81,28 +95,26 @@ void	*life_of_a_philo(void *i)
 void	*check_on_philos(void *p)
 {
 	t_philo			*philo;
-	// pthread_mutex_t	death;
 	int				i;
 
 	philo = (t_philo *)p;
-	// printf("YO I'M CHECKING ON PHILOS NOW\n");
 	while (1)
 	{
+		pthread_mutex_lock(philo->data->death);
 		i = 0;
 		while (i < philo[0].data->num_philos)
 		{
-			// printf("\nphilo[%i], status == %i\n", i, philo[i].status);
 			if (philo[i].status == DEAD)
 			{
+				pthread_mutex_lock(philo->data->write_access);
 				printf("%li %i %s", (get_time() - philo->data->beginning), philo[i].id, DIE);
-				return (&philo->status);
+				pthread_mutex_unlock(philo->data->write_access);
+				return (&philo[i].status);
 			}
-			// printf("OK I CHECKED THE STATUS HE IS NOT DEAD\n");
 			i++;
-			// printf("philo[%i].data->num_philos: %i\n", i, philo[0].data->num_philos);
 		}
+		pthread_mutex_unlock(philo->data->death);
 	}
-	// printf("HEY I AM DONE CHECKING ON PHILOS\n");
 	return (NULL);
 }
 
@@ -133,7 +145,11 @@ int	main(int argc, char **argv)
 		free(&philo[i]);
 		i++;
 	}
-	free(philo);
+	/*Make it so that if a philosopher dies before everyone eats, this phrase does not appear.*/
+	pthread_mutex_lock(philo->data->write_access);
+	printf("Each philosophers ate %i times. They are full now!\n", philo->meals);
+	pthread_mutex_unlock(philo->data->write_access);
+	// free(philo);
 	// pthread_mutex_destroy(&death);
 	/*If there is only one philosopher, the program must run until he dies because he only has one fork*/
 	/*Timer for last meal starts as soon as the philo starts to eat*/
