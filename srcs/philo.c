@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:20:04 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/10 19:59:58 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/11 18:53:23 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	eating(t_philo *philo)
 	printf("%li %i %s", (get_time() - philo->data->beginning), philo->id, FORK);
 	pthread_mutex_unlock(philo->data->write_access);
 	pthread_mutex_lock(philo->data->write_access);
+	philo->timer = get_time();
 	printf("%li %i %s", (get_time() - philo->data->beginning), philo->id, EAT);
 	pthread_mutex_unlock(philo->data->write_access);
 	waiting(philo->data->time_to_eat);
@@ -66,12 +67,41 @@ void	eating(t_philo *philo)
 	pthread_mutex_unlock(philo->left_fork);
 }
 
+int	check_if_dead(t_philo *philo)
+{
+	int			dead;
+	long int	now;
+
+	pthread_mutex_lock(philo->data->death);
+	now = get_time();
+	if (philo->timer != 0 && now - philo->timer >= philo->data->time_to_die)
+	{
+		philo->status = DEAD;
+		philo->data->status = DEAD;
+	}
+	dead = philo->status;
+	pthread_mutex_unlock(philo->data->death);
+	return (dead);
+}
+
+int	check_if_full(t_philo *philo)
+{
+	int	full;
+
+	pthread_mutex_lock(philo->data->full);
+	full = philo->status;
+	pthread_mutex_unlock(philo->data->full);
+	return (full);
+}
+
 void	*life_of_a_philo(void *i)
 {
 	t_philo		*philo;
 
 	philo = (t_philo *)i;
-	while (philo->status != END && philo->status != DEAD)
+	if (philo->id % 2 == 0)
+		usleep(15000);
+	while (check_if_dead(philo) != DEAD && check_if_full(philo) != END)
 	{
 		if (philo->data->num_meals != 0)
 		{
@@ -85,45 +115,63 @@ void	*life_of_a_philo(void *i)
 				philo->status = END;
 		}
 		eating(philo);
+		pthread_mutex_lock(philo->data->death);
+		if (philo->status != DEAD && philo->data->status == DEAD)
+			return(NULL);
+		pthread_mutex_unlock(philo->data->death);
 		sleeping(philo);
+		pthread_mutex_lock(philo->data->death);
+		if (philo->status != DEAD && philo->data->status == DEAD)
+			return(NULL);
+		pthread_mutex_unlock(philo->data->death);
 		thinking(philo);
+		pthread_mutex_lock(philo->data->death);
+		if (philo->status != DEAD && philo->data->status == DEAD)
+			return(NULL);
+		pthread_mutex_unlock(philo->data->death);
+	}
+	if (philo->status == DEAD)
+	{
+		pthread_mutex_lock(philo->data->write_access);
+		printf("%li %i %s", (get_time() - philo->data->beginning), philo->id, DIE);
+		pthread_mutex_unlock(philo->data->write_access);
 	}
 	/*Philos think between eating and sleeping. If there is no delay between the two, he still thinks but then starts eating right away.*/
 	return (NULL);
 }
 
-void	*check_on_philos(void *p)
-{
-	t_philo			*philo;
-	int				i;
+// void	*check_on_philos(void *p)
+// {
+// 	t_philo			*philo;
+// 	int				i;
 
-	philo = (t_philo *)p;
-	while (1)
-	{
-		pthread_mutex_lock(philo->data->death);
-		i = 0;
-		while (i < philo[0].data->num_philos)
-		{
-			if (philo[i].status == DEAD)
-			{
-				pthread_mutex_lock(philo->data->write_access);
-				printf("%li %i %s", (get_time() - philo->data->beginning), philo[i].id, DIE);
-				pthread_mutex_unlock(philo->data->write_access);
-				return (&philo[i].status);
-			}
-			i++;
-		}
-		pthread_mutex_unlock(philo->data->death);
-	}
-	return (NULL);
-}
+// 	philo = (t_philo *)p;
+// 	while (1)
+// 	{
+// 		pthread_mutex_lock(philo->data->death);
+// 		i = 0;
+// 		while (i < philo[0].data->num_philos)
+// 		{
+// 			if (philo[i].status == DEAD)
+// 			{
+// 				pthread_mutex_lock(philo->data->write_access);
+// 				printf("%li %i %s", (get_time() - philo->data->beginning), philo[i].id, DIE);
+// 				pthread_mutex_unlock(philo->data->write_access);
+// 				return (&philo[i].status);
+// 			}
+// 			i++;
+// 		}
+// 		pthread_mutex_unlock(philo->data->death);
+// 	}
+// 	return (NULL);
+// }
 
 int	main(int argc, char **argv)
 {
 	t_data			*data;
 	t_philo			*philo;
 	int				i;
-	pthread_t		guardian;
+	// pthread_t		guardian;
 
 	if (argc > 6 || argc < 5)
 		exit_error(ARG_NUM_ERROR);
@@ -133,9 +181,9 @@ int	main(int argc, char **argv)
 	init_forks(data);
 	init_philos(philo, data);
 	i = 0;
-	if (pthread_create(&guardian, NULL, &check_on_philos, philo) != 0)
-		exit_error("Thread error\n");
-	pthread_detach(guardian);
+	// if (pthread_create(&guardian, NULL, &check_on_philos, philo) != 0)
+	// 	exit_error("Thread error\n");
+	// pthread_detach(guardian);
 	while (data->num_philos > i)
 	{
 		if (pthread_join(philo[i].th, NULL) != 0)

@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 15:36:21 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/10 19:47:54 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/11 18:23:32 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ void	init_philos(t_philo *philo, t_data *data)
 		exit_error("ERROR CREATING WRITE_ACCESS\n");
 	data->death = malloc(sizeof(pthread_mutex_t));
 	if (pthread_mutex_init(data->death, NULL) == -1)
+		exit_error("ERROR CREATING WRITE_ACCESS\n");
+	data->full = malloc(sizeof(pthread_mutex_t));
+	if (pthread_mutex_init(data->full, NULL) == -1)
 		exit_error("ERROR CREATING WRITE_ACCESS\n");
 	while (data->num_philos > i)
 	{
