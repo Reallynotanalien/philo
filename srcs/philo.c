@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:20:04 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/11 18:53:23 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/12 16:31:27 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,30 +143,23 @@ void	*life_of_a_philo(void *i)
 // void	*check_on_philos(void *p)
 // {
 // 	t_philo			*philo;
-// 	int				i;
 
 // 	philo = (t_philo *)p;
 // 	while (1)
 // 	{
 // 		pthread_mutex_lock(philo->data->death);
-// 		i = 0;
-// 		while (i < philo[0].data->num_philos)
+// 		if (philo->status == DEAD)
 // 		{
-// 			if (philo[i].status == DEAD)
-// 			{
-// 				pthread_mutex_lock(philo->data->write_access);
-// 				printf("%li %i %s", (get_time() - philo->data->beginning), philo[i].id, DIE);
-// 				pthread_mutex_unlock(philo->data->write_access);
-// 				return (&philo[i].status);
-// 			}
-// 			i++;
+// 			pthread_mutex_lock(philo->data->write_access);
+// 			printf("%li %i %s", (get_time() - philo->data->beginning), 1, DIE);
+// 			pthread_mutex_unlock(philo->data->write_access);
 // 		}
 // 		pthread_mutex_unlock(philo->data->death);
 // 	}
 // 	return (NULL);
 // }
 
-int	main(int argc, char **argv)
+int	maine(int argc, char **argv)
 {
 	t_data			*data;
 	t_philo			*philo;
@@ -174,20 +167,20 @@ int	main(int argc, char **argv)
 	// pthread_t		guardian;
 
 	if (argc > 6 || argc < 5)
-		exit_error(ARG_NUM_ERROR);
+		error_message(ARG_NUM_ERROR);
 	data = malloc(sizeof(t_data));
 	init_data(argc, argv, data);
 	philo = malloc(sizeof(t_philo) * data->num_philos);
 	init_forks(data);
 	init_philos(philo, data);
 	i = 0;
-	// if (pthread_create(&guardian, NULL, &check_on_philos, philo) != 0)
-	// 	exit_error("Thread error\n");
+	// if (pthread_create(&guardian, NULL, &check_on_philos, &philo) != 0)
+	// 	error_message("Thread error\n");
 	// pthread_detach(guardian);
 	while (data->num_philos > i)
 	{
 		if (pthread_join(philo[i].th, NULL) != 0)
-			exit_error("Thread join error\n");
+			error_message("Thread join error\n");
 		data->now = get_time();
 		data->now -= data->beginning;
 		free(&philo[i]);
@@ -195,10 +188,42 @@ int	main(int argc, char **argv)
 	}
 	/*Make it so that if a philosopher dies before everyone eats, this phrase does not appear.*/
 	pthread_mutex_lock(philo->data->write_access);
-	printf("Each philosophers ate %i times. They are full now!\n", philo->meals);
+	if (philo->data->status == END)
+		printf("Each philosophers ate %i times. They are full now!\n", philo->meals);
 	pthread_mutex_unlock(philo->data->write_access);
 	// free(philo);
 	// pthread_mutex_destroy(&death);
 	/*If there is only one philosopher, the program must run until he dies because he only has one fork*/
 	/*Timer for last meal starts as soon as the philo starts to eat*/
+}
+
+int	main(int argc, char **argv)
+{
+	t_data	*data;
+	t_philo	*philo;
+	int		i;
+
+	if (argc > 6 || argc < 5)
+	{
+		error_message(ARG_NUM_ERROR);
+		return (1);
+	}
+	data = malloc(sizeof(t_data));
+	philo = malloc(sizeof(t_philo));
+	//should I add * data->num_philo or not? because I am just allocating space for the pointer now so I think not.
+	if (error_message(init_data(argc, argv, data)) != 0)
+	{
+		free(data);
+		free(philo);
+		return (1);
+	}
+	if (error_message(init_philos(philo, data)) != 0)
+	{
+		free_all(philo, data);
+		destroy_all_mutex(philo, data);
+		return (1);
+	}
+	free_all(philo, data);
+	destroy_all_mutex(philo, data);
+	return (0);
 }

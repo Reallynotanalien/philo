@@ -6,26 +6,17 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 15:36:21 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/11 18:23:32 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/12 16:33:02 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void	init_philos(t_philo *philo, t_data *data)
+void	init_philo_data(t_philo *philo, t_data *data)
 {
 	int			i;
 
 	i = 0;
-	data->write_access = malloc(sizeof(pthread_mutex_t));
-	if (pthread_mutex_init(data->write_access, NULL) == -1)
-		exit_error("ERROR CREATING WRITE_ACCESS\n");
-	data->death = malloc(sizeof(pthread_mutex_t));
-	if (pthread_mutex_init(data->death, NULL) == -1)
-		exit_error("ERROR CREATING WRITE_ACCESS\n");
-	data->full = malloc(sizeof(pthread_mutex_t));
-	if (pthread_mutex_init(data->full, NULL) == -1)
-		exit_error("ERROR CREATING WRITE_ACCESS\n");
 	while (data->num_philos > i)
 	{
 		philo[i].id = i + 1;
@@ -34,7 +25,14 @@ void	init_philos(t_philo *philo, t_data *data)
 		philo[i].right_fork = &data->fork[i];
 		i++;
 	}
+}
+
+char	*init_philos(t_philo *philo, t_data *data)
+{
+	int			i;
+
 	i = 0;
+	init_philo_data(philo, data);
 	while (data->num_philos > i)
 	{
 		if (i == 0)
@@ -43,12 +41,32 @@ void	init_philos(t_philo *philo, t_data *data)
 			philo[i].left_fork = philo[i - 1].right_fork;
 		philo[i].data = data;
 		if (pthread_create(&philo[i].th, NULL, &life_of_a_philo, &philo[i]) != 0)
-			exit_error("Thread error\n");
+			error_message("Thread error\n");
 		i++;
 	}
 }
 
-void	init_forks(t_data *data)
+char	*init_mutex(t_data *data)
+{
+	data->write_access = malloc(sizeof(pthread_mutex_t));
+	if (pthread_mutex_init(data->write_access, NULL) == -1)
+		return (WRITE_MUTEX_ERROR);
+	data->death = malloc(sizeof(pthread_mutex_t));
+	if (pthread_mutex_init(data->death, NULL) == -1)
+	{
+		pthread_mutex_destroy(&data->write_access);
+		return (DEATH_MUTEX_ERROR);
+	}
+	data->full = malloc(sizeof(pthread_mutex_t));
+	if (pthread_mutex_init(data->full, NULL) == -1)
+	{
+		pthread_mutex_destroy(&data->write_access);
+		pthread_mutex_destroy(&data->death);
+		return (FULL_MUTEX_ERROR);
+	}
+}
+
+char	*init_forks(t_data *data)
 {
 	int	i;
 
@@ -57,23 +75,48 @@ void	init_forks(t_data *data)
 	while (data->num_philos > i)
 	{
 		if (pthread_mutex_init(&data->fork[i], NULL) == -1)
-			exit_error("ERROR CREATING FORKS\n");
+		{
+			if (i > 0)
+			{
+				while (i >= 0)
+				{
+					i--;
+					pthread_mutex_destroy(&data->fork[i]);
+				}
+			}
+			return (FORK_CREATION_ERROR);
+		}
 		i++;
 	}
+	return (NULL);
 }
 
-void	init_data(int argc, char **argv, t_data *data)
+char	*init_data(int argc, char **argv, t_data *data)
 {
 	data->num_philos = ft_atoi(argv[1]);
 	if (data->num_philos > 200)
-		exit_error("There is too many philos!!!\n");
+		return (PHILO_NUM_ERROR);
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);
 	if (data->time_to_die < 60 || data->time_to_eat < 60
 		|| data->time_to_sleep < 60)
-		exit_error("The time should be bigger than 60ms\n");
+		return (NOT_ENOUGH_TIME_ERROR);
 	if (argc == 6)
 		data->num_meals = ft_atoi(argv[5]);
+	data->status = 0;
 	data->beginning = get_time();
+	if (init_forks(data) != NULL)
+	{
+		destroy_forks(data);
+		return (FORK_CREATION_ERROR);
+	}
+		//I need to find a way to send back the error seamlessly.
+	if (init_mutex(data) != NULL)
+	{
+		destroy_forks(data);
+		return ("MUTEX ERROR\n");
+	}
+	//I need to find a way to send back the error seamlessly.
+	return (NULL);
 }
