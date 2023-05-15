@@ -6,7 +6,7 @@
 #    By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/05 20:32:19 by kafortin          #+#    #+#              #
-#    Updated: 2023/04/28 18:39:05 by kafortin         ###   ########.fr        #
+#    Updated: 2023/05/15 18:13:12 by kafortin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ NAME = philo
 FILES = ./srcs/philo.c \
 		./srcs/init.c \
 		./srcs/exit_management.c \
+		./srcs/time.c \
 		./srcs/utils.c \
 
 OBJS = $(FILES:.c=.o)

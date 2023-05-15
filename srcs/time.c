@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_management.c                                  :+:      :+:    :+:   */
+/*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/24 15:44:01 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/15 17:36:24 by kafortin         ###   ########.fr       */
+/*   Created: 2023/05/15 17:46:55 by kafortin          #+#    #+#             */
+/*   Updated: 2023/05/15 17:48:18 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void	error_message(char *error)
+long int	get_time(void)
 {
-	write(2, "ERROR - ", 8);
-	write(2, error, ft_strlen(error));
+	struct timeval	now;
+	
+	gettimeofday(&now, NULL);
+	return ((now.tv_sec * 1000) + (now.tv_usec / 1000));
 }
