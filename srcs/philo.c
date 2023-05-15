@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:20:04 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/15 18:00:57 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/15 18:19:54 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	check_args(int argc)
 		error_message(ARG_NUM_ERROR);
 		return (1);
 	}
+	//check if numerics too!!!
 	return (0);
 }
 
