@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 15:36:21 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/16 15:00:24 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/16 15:26:56 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	init_mutex(t_data *data)
 		destroy_forks(data);
 		pthread_mutex_destroy(data->write_access);
 		pthread_mutex_destroy(data->death);
+		free(data->full);
 		free(data->fork);
 		free(data->write_access);
 		free(data->death);
@@ -86,7 +87,7 @@ int	init_data(int argc, char **argv, t_data *data)
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);
-	if (data->time_to_die < 60|| data->time_to_eat < 60
+	if (data->time_to_die < 60 || data->time_to_eat < 60
 		|| data->time_to_sleep < 60)
 	{
 		error_message(NOT_ENOUGH_TIME_ERROR);
