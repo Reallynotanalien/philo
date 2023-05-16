@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/15 18:03:59 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/16 14:58:38 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,9 @@ void		error_message(char *error);
 // void		free_all(t_philo *philo, t_data *data);
 // void		destroy_forks(t_data *data);
 // void		destroy_all_mutex(t_data *data);
+
+/*free*/
+void		destroy_forks(t_data *data);
 
 /*init*/
 // char		*init_philos(t_philo *philo, t_data *data);

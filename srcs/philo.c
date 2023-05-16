@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:20:04 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/15 18:19:54 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/16 14:59:32 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,10 @@ int	main(int argc, char **argv)
 		return (1);
 	if (init_data(argc, argv, &data) != 0 || init_mutex(&data) != 0)
 		return (1);
+	destroy_forks(&data);
+	pthread_mutex_destroy(data.write_access);
+	pthread_mutex_destroy(data.death);
+	free(data.fork);
+	free(data.write_access);
+	free(data.death);
 }
