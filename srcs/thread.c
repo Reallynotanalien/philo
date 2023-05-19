@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:41:07 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/19 18:41:37 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/19 18:45:42 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	print_message(char *message, t_philo *philo)
 		printf("%i had enough to eat! %i meals is enough.\n", philo->id, philo->meals);
 		philo->meals++;
 		philo->status = IDLE;
+		pthread_mutex_unlock(philo->data->write_access);
 		//this is temporary, just to make sure the printing stops if all the
 		//philo ate enough times.
 	}
