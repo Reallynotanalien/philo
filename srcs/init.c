@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 15:36:21 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/19 17:57:34 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/19 18:24:49 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,5 +136,6 @@ int	init_data(int argc, char **argv, t_data *data)
 	if (argc == 6)
 		data->num_meals = ft_atoi(argv[5]);
 	data->beginning = get_time();
+	data->status = 0;
 	return (0);
 }

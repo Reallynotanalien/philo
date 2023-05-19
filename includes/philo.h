@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/19 18:07:47 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/19 18:41:21 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 # define END 1
 # define DEAD 2
+# define IDLE 3
 
 /*ERROR MESSAGES*/
 # define ARG_NUM_ERROR "The program needs between 5 and 6 arguments: \
@@ -53,6 +54,7 @@ typedef struct data
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				num_meals;
+	int				status;
 	long int		beginning;
 	long int		now;
 	pthread_mutex_t	*fork;
