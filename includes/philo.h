@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/17 18:19:44 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/19 18:07:47 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ typedef struct data
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	*write_access;
 	pthread_mutex_t	*death;
-	pthread_mutex_t	*time_since_last_meal;
 	pthread_mutex_t	*full;
 }			t_data;
 
@@ -74,10 +73,10 @@ typedef struct philo
 	pthread_mutex_t	*right_fork;
 }			t_philo;
 
-// void		*life_of_a_philo(void *i);
+void		*life_of_a_philo(void *i);
 long int	get_time(void);
 
-/*exit_management*/
+/*error*/
 void		error_message(char *error);
 // void		free_all(t_philo *philo, t_data *data);
 // void		destroy_forks(t_data *data);
@@ -88,11 +87,14 @@ void		destroy_forks(t_data *data);
 void		destroy_and_free_data(t_data *data);
 
 /*init*/
-// char		*init_philos(t_philo *philo, t_data *data);
+int			init_philos(t_philo *philo, t_data *data);
 int			init_mutex(t_data *data);
 int			init_data(int argc, char **argv, t_data *data);
 
-/*utils.c*/
+/*time*/
+void		waiting(long int ms);
+
+/*utils*/
 int			ft_isdigit(int argc, char **argv);
 size_t		ft_strlen(const char *str);
 long		ft_atoi(const char *str);

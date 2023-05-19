@@ -6,7 +6,7 @@
 #    By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/05 20:32:19 by kafortin          #+#    #+#              #
-#    Updated: 2023/05/16 15:01:52 by kafortin         ###   ########.fr        #
+#    Updated: 2023/05/19 17:41:52 by kafortin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,9 @@ NAME = philo
 
 FILES = ./srcs/philo.c \
 		./srcs/init.c \
-		./srcs/exit_management.c \
+		./srcs/error.c \
 		./srcs/free.c \
+		./srcs/thread.c \
 		./srcs/time.c \
 		./srcs/utils.c \
 

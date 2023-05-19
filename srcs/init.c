@@ -6,11 +6,51 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 15:36:21 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/16 15:33:25 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/19 17:57:34 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+
+void	init_philo_data(t_philo *philo, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->num_philos > i)
+	{
+		philo[i].id = i + 1;
+		philo[i].status = 0;
+		philo[i].meals = 1;
+		philo[i].right_fork = &data->fork[i];
+		i++;
+	}
+}
+
+int	init_philos(t_philo *philo, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	init_philo_data(philo, data);
+	while (data->num_philos > i)
+	{
+		if (i == 0)
+			philo[i].left_fork = philo[data->num_philos - 1].right_fork;
+		else
+			philo[i].left_fork = philo[i - 1].right_fork;
+		philo[i].data = data;
+		if (pthread_create(&philo[i].th, NULL, &life_of_a_philo, &philo[i]) != 0)
+		{
+			destroy_and_free_data(data);
+			free(philo);
+			error_message("Thread error\n");
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
 
 int	init_forks(t_data *data)
 {
