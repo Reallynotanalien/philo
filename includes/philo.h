@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/29 17:25:39 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/29 18:20:13 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ this table for the simulation to take place!\n"
 # define NOT_ENOUGH_TIME_ERROR "You should leave more than 60ms for each \
 philo to eat, sleep or die. Come on.\n"
 # define FORK_CREATION_ERROR "The forks could not be created properly. Oups!\n"
+# define THREAD_CREATE_ERROR "The thread could not be created properly. Oups!\n"
 # define WRITE_MUTEX_ERROR "Could not create the write_access mutex. Oups!\n"
 # define DEATH_MUTEX_ERROR "Could not create the death mutex. Oups!\n"
 # define FULL_MUTEX_ERROR "Could not create the full mutex. Oups!\n"

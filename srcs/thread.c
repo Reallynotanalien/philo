@@ -6,11 +6,20 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:41:07 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/29 17:22:17 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/29 18:49:56 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+
+void	*keeper_of_status(void *status)
+{
+	static void	*last_status = NULL;
+
+	if (status)
+		last_status = status;
+	return (last_status);
+}
 
 void	print_message(char *message, t_philo *philo)
 {
@@ -32,13 +41,19 @@ void	print_message(char *message, t_philo *philo)
 		//this is temporary, just to make sure the printing stops if all the
 		//philo ate enough times.
 	}
-	else if (philo->status == DEAD)
-	{
-		pthread_mutex_lock(philo->data->write_access);
-		printf("%i died omg!\n", philo->id);
-		philo->status = IDLE;
-		pthread_mutex_unlock(philo->data->write_access);
-	}
+	// else if (philo->status == DEAD)
+	// {
+	// 	pthread_mutex_lock(philo->data->write_access);
+	// 	printf("%i died omg!\n", philo->id);
+	// 	philo->status = IDLE;
+	// 	pthread_mutex_unlock(philo->data->write_access);
+	// }
+}
+
+void	kill_philo(t_philo *philo, t_data *data)
+{
+	if (data->status == DEAD)
+		print_message(DIE, philo);
 }
 
 int	check_if_dead(t_philo *philo)
@@ -48,7 +63,10 @@ int	check_if_dead(t_philo *philo)
 	pthread_mutex_lock(philo->data->death);
 	now = get_time();
 	if (philo->timer != 0 && now - philo->timer >= philo->data->time_to_die)
+	{
 		philo->status = DEAD;
+		philo->data->status = DEAD;
+	}
 	pthread_mutex_unlock(philo->data->death);
 	return (philo->status);
 }
@@ -67,11 +85,11 @@ void	sleeping(t_philo *philo)
 void	eating(t_philo *philo)
 {
 	//philo must check if both forks are accessible before taking them.
-	if (check_if_dead(philo) == DEAD)
-	{
-		print_message(DIE, philo);
-		return ;
-	}
+	// if (check_if_dead(philo) == DEAD)
+	// {
+	// 	kill_philo(philo, philo->data);
+	// 	return ;
+	// }
 	pthread_mutex_lock(philo->right_fork);
 	print_message(FORK, philo);
 	pthread_mutex_lock(philo->left_fork);
@@ -97,7 +115,7 @@ void	*life_of_a_philo(void *i)
 	philo = (t_philo *)i;
 	if (philo->id % 2 == 0)
 		usleep(15000);
-	while (philo->status != END && philo->status != DEAD)
+	while (philo->meals <= philo->data->num_meals || philo->data->num_meals == 0)
 	{
 		eating(philo);
 		sleeping(philo);

@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:20:04 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/29 17:17:21 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/29 18:52:34 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,19 @@ int	check_args(int argc, char **argv)
 	return (0);
 }
 
+void	wait_for_philos(t_philo *philo)
+{
+	int	i;
+
+	i = 0;
+	while (i < philo->data->num_philos)
+	{
+		if (pthread_join(philo[i].th, NULL) != 0)
+			return ;
+		i++;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_data	*data;
@@ -32,9 +45,9 @@ int	main(int argc, char **argv)
 	if (init_data(argc, argv, data) != 0 || init_mutex(data) != 0)
 		return (1);
 	philo = malloc(sizeof(t_philo) * data->num_philos);
-	//should I add * data->num_philo or not? because I am just allocating
-	//space for the pointer now so I think not.
 	if (init_philos(philo, data) != 0)
 		return (1);
+	wait_for_philos(philo);
 	destroy_and_free_data(data);
+	//don't forget to free philos individually!
 }

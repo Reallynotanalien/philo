@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 15:36:21 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/29 17:25:31 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/29 18:20:04 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ int	init_philos(t_philo *philo, t_data *data)
 		{
 			destroy_and_free_data(data);
 			free(philo);
-			error_message("Thread error\n");
-			return (1);
+			return (error_message(THREAD_CREATE_ERROR), 1);
 		}
 		i++;
 	}
