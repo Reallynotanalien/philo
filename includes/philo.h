@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/19 18:41:21 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/29 17:06:02 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ meals].\n"
 # define NUMERIC_ERROR "The arguments should be numbers.\n"
 # define PHILO_NUM_ERROR "There is too many philosophers! This table \
 only holds 200 of them.\n"
+# define ZERO_PHILO_ERROR "There should be at least one philosopher at \
+this table for the simulation to take place!\n"
 # define NOT_ENOUGH_TIME_ERROR "You should leave more than 60ms for each \
 philo to eat, sleep or die. Come on.\n"
 # define FORK_CREATION_ERROR "The forks could not be created properly. Oups!\n"

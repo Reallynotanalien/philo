@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 15:36:21 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/19 18:24:49 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/29 17:11:12 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,7 @@ int	init_mutex(t_data *data)
 		destroy_forks(data);
 		free(data->fork);
 		free(data->write_access);
-		error_message(WRITE_MUTEX_ERROR);
-		return (1);
+		return (error_message(WRITE_MUTEX_ERROR), 1);
 	}
 	data->death = malloc(sizeof(pthread_mutex_t));
 	if (pthread_mutex_init(data->death, NULL) == -1)
@@ -97,8 +96,7 @@ int	init_mutex(t_data *data)
 		free(data->fork);
 		free(data->write_access);
 		free(data->death);
-		error_message(DEATH_MUTEX_ERROR);
-		return (1);
+		return (error_message(DEATH_MUTEX_ERROR), 1);
 	}
 	data->full = malloc(sizeof(pthread_mutex_t));
 	if (pthread_mutex_init(data->full, NULL) == -1)
@@ -110,8 +108,7 @@ int	init_mutex(t_data *data)
 		free(data->fork);
 		free(data->write_access);
 		free(data->death);
-		error_message(FULL_MUTEX_ERROR);
-		return (1);
+		return (error_message(FULL_MUTEX_ERROR), 1);
 	}
 	return (0);
 }
@@ -120,22 +117,19 @@ int	init_data(int argc, char **argv, t_data *data)
 {
 	data->num_philos = ft_atoi(argv[1]);
 	if (data->num_philos > 200)
-	{
-		error_message(PHILO_NUM_ERROR);
-		return (1);
-	}
+		return (error_message(PHILO_NUM_ERROR), 1);
+	if (data->num_philos < 1)
+		return (error_message(ZERO_PHILO_ERROR), 1);
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);
 	if (data->time_to_die < 60 || data->time_to_eat < 60
 		|| data->time_to_sleep < 60)
-	{
-		error_message(NOT_ENOUGH_TIME_ERROR);
-		return (1);
-	}
+		return (error_message(NOT_ENOUGH_TIME_ERROR), 1);
+	data->num_meals = 0;
 	if (argc == 6)
 		data->num_meals = ft_atoi(argv[5]);
 	data->beginning = get_time();
-	data->status = 0;
+	// data->status = 0;
 	return (0);
 }

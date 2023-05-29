@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:41:07 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/19 18:45:42 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/29 16:51:52 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	print_message(char *message, t_philo *philo)
 {
 	//printer must check if all philos are alive before printing a message.
-	if (philo->status != END && philo->status != IDLE)
+	if (philo->status != END && philo->status != IDLE && philo->status != DEAD)
 	{
 		pthread_mutex_lock(philo->data->write_access);
 		printf("%li %i %s", (get_time() - philo->data->beginning),
@@ -32,6 +32,25 @@ void	print_message(char *message, t_philo *philo)
 		//this is temporary, just to make sure the printing stops if all the
 		//philo ate enough times.
 	}
+	else if (philo->status == DEAD)
+	{
+		pthread_mutex_lock(philo->data->write_access);
+		printf("%i died omg!\n", philo->id);
+		philo->status = IDLE;
+		pthread_mutex_unlock(philo->data->write_access);
+	}
+}
+
+int	check_if_dead(t_philo *philo)
+{
+	long int	now;
+
+	pthread_mutex_lock(philo->data->death);
+	now = get_time();
+	if (philo->timer != 0 && now - philo->timer >= philo->data->time_to_die)
+		philo->status = DEAD;
+	pthread_mutex_unlock(philo->data->death);
+	return (philo->status);
 }
 
 void	thinking(t_philo *philo)
@@ -48,6 +67,11 @@ void	sleeping(t_philo *philo)
 void	eating(t_philo *philo)
 {
 	//philo must check if both forks are accessible before taking them.
+	if (check_if_dead(philo) == DEAD)
+	{
+		print_message(DIE, philo);
+		return ;
+	}
 	pthread_mutex_lock(philo->right_fork);
 	print_message(FORK, philo);
 	pthread_mutex_lock(philo->left_fork);
@@ -72,8 +96,8 @@ void	*life_of_a_philo(void *i)
 
 	philo = (t_philo *)i;
 	if (philo->id % 2 == 0)
-		usleep(15);
-	while (1)
+		usleep(15000);
+	while (philo->status != END && philo->status != DEAD)
 	{
 		eating(philo);
 		sleeping(philo);
