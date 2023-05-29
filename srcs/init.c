@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 15:36:21 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/29 18:20:04 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/29 19:46:06 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,10 @@ int	init_philos(t_philo *philo, t_data *data)
 		else
 			philo[i].left_fork = philo[i - 1].right_fork;
 		philo[i].data = data;
-		if (pthread_create(&philo[i].th, NULL, &life_of_a_philo, &philo[i]) != 0)
-		{
-			destroy_and_free_data(data);
-			free(philo);
-			return (error_message(THREAD_CREATE_ERROR), 1);
-		}
+		if (pthread_create(&philo[i].th, NULL, &life_of_a_philo,
+				&philo[i]) != 0)
+			return (destroy_and_free_data(data), free(philo),
+				error_message(THREAD_CREATE_ERROR), 1);
 		i++;
 	}
 	return (0);
@@ -65,9 +63,8 @@ int	init_forks(t_data *data)
 			{
 				while (i-- >= 0)
 					pthread_mutex_destroy(&data->fork[i]);
-				free(data->fork);
-				error_message(FORK_CREATION_ERROR);
-				return (1);
+				return (free(data->fork),
+					error_message(FORK_CREATION_ERROR), 1);
 			}
 		}
 		i++;
@@ -81,34 +78,14 @@ int	init_mutex(t_data *data)
 		return (1);
 	data->write_access = malloc(sizeof(pthread_mutex_t));
 	if (pthread_mutex_init(data->write_access, NULL) == -1)
-	{
-		destroy_forks(data);
-		free(data->fork);
-		free(data->write_access);
-		return (error_message(WRITE_MUTEX_ERROR), 1);
-	}
+		return (destroy_forks(data), free(data->fork),
+			free(data->write_access), free(data),
+			error_message(WRITE_MUTEX_ERROR), 1);
 	data->death = malloc(sizeof(pthread_mutex_t));
 	if (pthread_mutex_init(data->death, NULL) == -1)
-	{
-		destroy_forks(data);
-		pthread_mutex_destroy(data->write_access);
-		free(data->fork);
-		free(data->write_access);
-		free(data->death);
-		return (error_message(DEATH_MUTEX_ERROR), 1);
-	}
-	data->full = malloc(sizeof(pthread_mutex_t));
-	if (pthread_mutex_init(data->full, NULL) == -1)
-	{
-		destroy_forks(data);
-		pthread_mutex_destroy(data->write_access);
-		pthread_mutex_destroy(data->death);
-		free(data->full);
-		free(data->fork);
-		free(data->write_access);
-		free(data->death);
-		return (error_message(FULL_MUTEX_ERROR), 1);
-	}
+		return (destroy_forks(data), pthread_mutex_destroy(data->write_access),
+			free(data->fork), free(data->write_access), free(data->death),
+			free(data), error_message(DEATH_MUTEX_ERROR), 1);
 	return (0);
 }
 
@@ -116,19 +93,19 @@ int	init_data(int argc, char **argv, t_data *data)
 {
 	data->num_philos = ft_atoi(argv[1]);
 	if (data->num_philos > 200)
-		return (error_message(PHILO_NUM_ERROR), 1);
+		return (free(data), error_message(PHILO_NUM_ERROR), 1);
 	if (data->num_philos < 1)
-		return (error_message(ZERO_PHILO_ERROR), 1);
+		return (free(data), error_message(ZERO_PHILO_ERROR), 1);
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);
 	if (data->time_to_die < 60 || data->time_to_eat < 60
 		|| data->time_to_sleep < 60)
-		return (error_message(NOT_ENOUGH_TIME_ERROR), 1);
+		return (free(data), error_message(NOT_ENOUGH_TIME_ERROR), 1);
 	data->num_meals = 0;
 	if (argc == 6)
 		data->num_meals = ft_atoi(argv[5]);
 	data->beginning = get_time();
-	// data->status = 0;
+	data->status = 0;
 	return (0);
 }

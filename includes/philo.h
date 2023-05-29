@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/29 18:20:13 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/29 19:28:39 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ philo to eat, sleep or die. Come on.\n"
 # define THREAD_CREATE_ERROR "The thread could not be created properly. Oups!\n"
 # define WRITE_MUTEX_ERROR "Could not create the write_access mutex. Oups!\n"
 # define DEATH_MUTEX_ERROR "Could not create the death mutex. Oups!\n"
-# define FULL_MUTEX_ERROR "Could not create the full mutex. Oups!\n"
 
 /*LOGS*/
 # define FORK "has taken a fork 🍴\n"
@@ -63,7 +62,6 @@ typedef struct data
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	*write_access;
 	pthread_mutex_t	*death;
-	pthread_mutex_t	*full;
 }			t_data;
 
 typedef struct philo
