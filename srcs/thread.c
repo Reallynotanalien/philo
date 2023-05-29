@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:41:07 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/29 18:49:56 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/29 19:09:25 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,14 @@ void	print_message(char *message, t_philo *philo)
 		//this is temporary, just to make sure the printing stops if all the
 		//philo ate enough times.
 	}
-	// else if (philo->status == DEAD)
-	// {
-	// 	pthread_mutex_lock(philo->data->write_access);
-	// 	printf("%i died omg!\n", philo->id);
-	// 	philo->status = IDLE;
-	// 	pthread_mutex_unlock(philo->data->write_access);
-	// }
+	else if (philo->status == DEAD)
+	{
+		pthread_mutex_lock(philo->data->write_access);
+		printf("%li %i %s", (get_time() - philo->data->beginning), philo->id,
+			message);
+		philo->status = IDLE;
+		pthread_mutex_unlock(philo->data->write_access);
+	}
 }
 
 void	kill_philo(t_philo *philo, t_data *data)
@@ -85,11 +86,8 @@ void	sleeping(t_philo *philo)
 void	eating(t_philo *philo)
 {
 	//philo must check if both forks are accessible before taking them.
-	// if (check_if_dead(philo) == DEAD)
-	// {
-	// 	kill_philo(philo, philo->data);
-	// 	return ;
-	// }
+	if (check_if_dead(philo) == DEAD)
+		print_message(DIE, philo);
 	pthread_mutex_lock(philo->right_fork);
 	print_message(FORK, philo);
 	pthread_mutex_lock(philo->left_fork);
@@ -104,7 +102,11 @@ void	eating(t_philo *philo)
 		if (philo->data->num_meals > philo->meals)
 			philo->meals++;
 		else if (philo->data->num_meals == philo->meals)
+		{
+			pthread_mutex_lock(philo->data->death);
 			philo->status = END;
+			pthread_mutex_unlock(philo->data->death);
+		}
 	}
 }
 
