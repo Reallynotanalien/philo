@@ -6,24 +6,14 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:41:07 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/29 19:19:58 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/29 19:55:02 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void	*keeper_of_status(void *status)
-{
-	static void	*last_status = NULL;
-
-	if (status)
-		last_status = status;
-	return (last_status);
-}
-
 void	print_message(char *message, t_philo *philo)
 {
-	//printer must check if all philos are alive before printing a message.
 	if (philo->status != END && philo->status != IDLE && philo->status != DEAD)
 	{
 		pthread_mutex_lock(philo->data->death);
