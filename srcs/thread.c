@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:41:07 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/29 19:09:25 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/29 19:19:58 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,28 @@ void	print_message(char *message, t_philo *philo)
 	//printer must check if all philos are alive before printing a message.
 	if (philo->status != END && philo->status != IDLE && philo->status != DEAD)
 	{
-		pthread_mutex_lock(philo->data->write_access);
-		printf("%li %i %s", (get_time() - philo->data->beginning),
-			philo->id, message);
-		pthread_mutex_unlock(philo->data->write_access);
+		pthread_mutex_lock(philo->data->death);
+		if (philo->data->status != DEAD)
+		{
+			pthread_mutex_lock(philo->data->write_access);
+			printf("%li %i %s", (get_time() - philo->data->beginning),
+				philo->id, message);
+			pthread_mutex_unlock(philo->data->write_access);
+		}
+		pthread_mutex_unlock(philo->data->death);
 	}
 	else if (philo->status == END)
 	{
-		pthread_mutex_lock(philo->data->write_access);
-		printf("%i had enough to eat! %i meals is enough.\n", philo->id, philo->meals);
-		philo->meals++;
-		philo->status = IDLE;
-		pthread_mutex_unlock(philo->data->write_access);
+		pthread_mutex_lock(philo->data->death);
+		if (philo->data->status != DEAD)
+		{
+			pthread_mutex_lock(philo->data->write_access);
+			printf("%i had enough to eat! %i meals is enough.\n", philo->id, philo->meals);
+			philo->meals++;
+			philo->status = IDLE;
+			pthread_mutex_unlock(philo->data->write_access);
+		}
+		pthread_mutex_unlock(philo->data->death);
 		//this is temporary, just to make sure the printing stops if all the
 		//philo ate enough times.
 	}
@@ -46,15 +56,11 @@ void	print_message(char *message, t_philo *philo)
 		pthread_mutex_lock(philo->data->write_access);
 		printf("%li %i %s", (get_time() - philo->data->beginning), philo->id,
 			message);
+		pthread_mutex_lock(philo->data->death);
 		philo->status = IDLE;
+		pthread_mutex_unlock(philo->data->death);
 		pthread_mutex_unlock(philo->data->write_access);
 	}
-}
-
-void	kill_philo(t_philo *philo, t_data *data)
-{
-	if (data->status == DEAD)
-		print_message(DIE, philo);
 }
 
 int	check_if_dead(t_philo *philo)
@@ -74,11 +80,15 @@ int	check_if_dead(t_philo *philo)
 
 void	thinking(t_philo *philo)
 {
+	// if (check_if_dead(philo) == DEAD)
+	// 	print_message(DIE, philo);
 	print_message(THINK, philo);
 }
 
 void	sleeping(t_philo *philo)
 {
+	// if (check_if_dead(philo) == DEAD)
+	// 	print_message(DIE, philo);
 	print_message(SLEEP, philo);
 	waiting(philo->data->time_to_sleep);
 }
@@ -117,7 +127,8 @@ void	*life_of_a_philo(void *i)
 	philo = (t_philo *)i;
 	if (philo->id % 2 == 0)
 		usleep(15000);
-	while (philo->meals <= philo->data->num_meals || philo->data->num_meals == 0)
+	while ((philo->meals <= philo->data->num_meals
+		|| philo->data->num_meals == 0) && philo->data->status != DEAD)
 	{
 		eating(philo);
 		sleeping(philo);
