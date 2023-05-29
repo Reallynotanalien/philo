@@ -6,11 +6,36 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:51:02 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/12 15:49:27 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/29 18:20:24 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+
+int	ft_isdigit(int argc, char **argv)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while (i < argc)
+	{
+		j = 0;
+		while (argv[i][j] != '\0')
+		{
+			if (!(argv[i][j] >= '0' && argv[i][j] <= '9'))
+			{
+				error_message(NUMERIC_ERROR);
+				return (1);
+			}
+			if (argv[i][j + 1] == '\0')
+				break ;
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
 
 /*Calculates the length of a string.*/
 size_t	ft_strlen(const char *str)
