@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:41:07 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/29 19:55:02 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/30 19:25:48 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,41 @@
 
 void	print_message(char *message, t_philo *philo)
 {
-	if (philo->status != END && philo->status != IDLE && philo->status != DEAD)
+	pthread_mutex_lock(philo->data->death);
+	if (philo->data->status != DEAD)
 	{
-		pthread_mutex_lock(philo->data->death);
-		if (philo->data->status != DEAD)
-		{
-			pthread_mutex_lock(philo->data->write_access);
-			printf("%li %i %s", (get_time() - philo->data->beginning),
-				philo->id, message);
-			pthread_mutex_unlock(philo->data->write_access);
-		}
 		pthread_mutex_unlock(philo->data->death);
-	}
-	else if (philo->status == END)
-	{
-		pthread_mutex_lock(philo->data->death);
-		if (philo->data->status != DEAD)
+		if (philo->status != END && philo->status != IDLE && philo->status != DEAD)
 		{
-			pthread_mutex_lock(philo->data->write_access);
-			printf("%i had enough to eat! %i meals is enough.\n", philo->id, philo->meals);
-			philo->meals++;
-			philo->status = IDLE;
-			pthread_mutex_unlock(philo->data->write_access);
+			pthread_mutex_lock(philo->data->death);
+			if (philo->data->status != DEAD)
+			{
+				pthread_mutex_lock(philo->data->write_access);
+				printf("%li %i %s", (get_time() - philo->data->beginning),
+					philo->id, message);
+				pthread_mutex_unlock(philo->data->write_access);
+			}
+			pthread_mutex_unlock(philo->data->death);
 		}
-		pthread_mutex_unlock(philo->data->death);
-		//this is temporary, just to make sure the printing stops if all the
-		//philo ate enough times.
+		else if (philo->status == END)
+		{
+			pthread_mutex_lock(philo->data->death);
+			if (philo->data->status != DEAD)
+			{
+				pthread_mutex_lock(philo->data->write_access);
+				printf("%i had enough to eat! %i meals is enough.\n", philo->id, philo->meals);
+				philo->meals++;
+				philo->status = IDLE;
+				pthread_mutex_unlock(philo->data->write_access);
+			}
+			pthread_mutex_unlock(philo->data->death);
+			//this is temporary, just to make sure the printing stops if all the
+			//philo ate enough times.
+		}
 	}
-	else if (philo->status == DEAD)
+	else
+		pthread_mutex_unlock(philo->data->death);
+	if (philo->status == DEAD)
 	{
 		pthread_mutex_lock(philo->data->write_access);
 		printf("%li %i %s", (get_time() - philo->data->beginning), philo->id,

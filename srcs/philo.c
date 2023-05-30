@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:20:04 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/29 19:38:38 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/30 19:00:30 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	main(int argc, char **argv)
 	philo = malloc(sizeof(t_philo) * data->num_philos);
 	if (init_philos(philo, data) != 0)
 		return (1);
-	medical_checkup(philo, data);
+	// medical_checkup(philo, data);
 	wait_for_philos(philo);
 	destroy_and_free_data(data);
 	free(philo);
