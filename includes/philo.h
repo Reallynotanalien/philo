@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/29 19:28:39 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/31 16:46:04 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct philo
 	int				status;
 	int				meals;
 	long int		timer;
+	long int		death_time;
 	pthread_t		th;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;

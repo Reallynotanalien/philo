@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 15:36:21 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/29 19:46:06 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/05/31 16:43:05 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	init_philo_data(t_philo *philo, t_data *data)
 		philo[i].status = 0;
 		philo[i].meals = 1;
 		philo[i].right_fork = &data->fork[i];
+		philo[i].death_time = 0;
 		i++;
 	}
 }
