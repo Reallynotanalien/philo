@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/02 17:32:23 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/02 17:41:40 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,6 @@ void		waiting(long int ms);
 int			ft_isdigit(int argc, char **argv);
 size_t		ft_strlen(const char *str);
 long		ft_atoi(const char *str);
+int			ft_strcmp(const char *str1, const char *str2);
 
 #endif

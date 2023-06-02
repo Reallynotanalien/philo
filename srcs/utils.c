@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:51:02 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/29 18:20:24 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/02 17:41:30 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,20 @@ long	ft_atoi(const char *str)
 		a++;
 	}
 	return (res * sign);
+}
+
+/*Compares between two strings and returns 0 if both are equal, or 1 
+if they are not.*/
+int	ft_strcmp(const char *str1, const char *str2)
+{
+	size_t	a;
+
+	a = 0;
+	while (((unsigned char)str1[a] != '\0' || (unsigned char)str2[a] != '\0'))
+	{
+		if ((unsigned char)str1[a] != (unsigned char)str2[a])
+			return ((unsigned char)str1[a] - (unsigned char)str2[a]);
+		a++;
+	}
+	return (0);
 }
