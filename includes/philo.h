@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/02 16:47:20 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/02 17:32:23 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct philo
 	int				id;
 	int				status;
 	int				meals;
+	int				num_philos;
 	long int		timer;
 	long int		death_time;
 	pthread_t		th;

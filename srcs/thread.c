@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:41:07 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/02 16:51:49 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/02 17:36:04 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,35 +128,6 @@ void	sleeping(t_philo *philo)
 	waiting(philo->data->time_to_sleep);
 }
 
-void	eating(t_philo *philo)
-{
-	//philo must check if both forks are accessible before taking them.
-	if (check_if_dead(philo) == DEAD)
-		print_message(DIE, philo);
-	pthread_mutex_lock(philo->right_fork);
-	print_message(FORK, philo);
-	pthread_mutex_lock(philo->left_fork);
-	print_message(FORK, philo);
-	philo->timer = get_time();
-	print_message(EAT, philo);
-	waiting(philo->data->time_to_eat);
-	pthread_mutex_unlock(philo->right_fork);
-	pthread_mutex_unlock(philo->left_fork);
-	if (philo->data->num_meals != 0)
-	{
-		if (philo->data->num_meals > philo->meals)
-			philo->meals++;
-		else if (philo->data->num_meals == philo->meals)
-		{
-			pthread_mutex_lock(philo->data->full);
-			philo->status = END;
-			philo->meals++;
-			philo->data->full_philos++;
-			pthread_mutex_unlock(philo->data->full);
-		}
-	}
-}
-
 int	check_if_anyone_is_dead(t_philo *philo)
 {
 	int	state;
@@ -177,6 +148,46 @@ int	check_if_everyone_is_full(t_philo *philo)
 		state = END;
 	pthread_mutex_unlock(philo->data->full);
 	return (state);
+}
+
+void	eating(t_philo *philo)
+{
+	//philo must check if both forks are accessible before taking them.
+	if (check_if_dead(philo) == DEAD)
+		print_message(DIE, philo);
+	if (check_if_anyone_is_dead(philo) != DEAD)
+	{
+		pthread_mutex_lock(philo->right_fork);
+		print_message(FORK, philo);
+	}
+	if (check_if_anyone_is_dead(philo) != DEAD)
+	{
+		if (philo->num_philos == 1)
+		{
+			change_status(philo);
+			return ;
+		}
+		pthread_mutex_lock(philo->left_fork);
+		print_message(FORK, philo);
+		philo->timer = get_time();
+		print_message(EAT, philo);
+		waiting(philo->data->time_to_eat);
+		pthread_mutex_unlock(philo->right_fork);
+		pthread_mutex_unlock(philo->left_fork);
+		if (philo->data->num_meals != 0)
+		{
+			if (philo->data->num_meals > philo->meals)
+				philo->meals++;
+			else if (philo->data->num_meals == philo->meals)
+			{
+				pthread_mutex_lock(philo->data->full);
+				philo->status = END;
+				philo->meals++;
+				philo->data->full_philos++;
+				pthread_mutex_unlock(philo->data->full);
+			}
+		}
+	}
 }
 
 void	*life_of_a_philo(void *i)
