@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:20:04 by kafortin          #+#    #+#             */
-/*   Updated: 2023/05/31 16:17:49 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/02 18:21:28 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,20 @@ int	check_args(int argc, char **argv)
 	return (0);
 }
 
-// void	medical_checkup(t_philo *philo, t_data *data)
-// {
-// 	int	i;
+void	medical_checkup(t_philo *philo, t_data *data)
+{
+	int	i;
 
-// 	i = 0;
-// 	pthread_mutex_lock(data->death);
-// 	while (i < data->num_philos)
-// 	{
-// 		if (philo[i].status == DEAD)
-// 			data->status = DEAD;
-// 		i++;
-// 	}
-// 	pthread_mutex_unlock(data->death);
-// }
+	i = 0;
+	while (i < data->num_philos)
+	{
+		if (check_if_someone_died(&philo[i]) == DEAD)
+			return ;
+		i++;
+		if (i == data->num_philos)
+			i = 0;
+	}
+}
 
 void	wait_for_philos(t_philo *philo)
 {
@@ -62,7 +62,7 @@ int	main(int argc, char **argv)
 	philo = malloc(sizeof(t_philo) * data->num_philos);
 	if (init_philos(philo, data) != 0)
 		return (1);
-	// medical_checkup(philo, data);
+	medical_checkup(philo, data);
 	wait_for_philos(philo);
 	destroy_and_free_data(data);
 	free(philo);

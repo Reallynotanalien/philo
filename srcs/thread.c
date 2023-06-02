@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:41:07 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/02 17:51:02 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/02 18:24:08 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,21 +123,6 @@ int	check_if_dead(t_philo *philo)
 // 	}
 // }
 
-void	thinking(t_philo *philo)
-{
-	// if (check_if_dead(philo) == DEAD)
-	// 	print_message(DIE, philo);
-	print_message(THINK, philo);
-}
-
-void	sleeping(t_philo *philo)
-{
-	// if (check_if_dead(philo) == DEAD)
-	// 	print_message(DIE, philo);
-	print_message(SLEEP, philo);
-	waiting(philo->data->time_to_sleep);
-}
-
 int	check_if_anyone_is_dead(t_philo *philo)
 {
 	int	state;
@@ -146,6 +131,21 @@ int	check_if_anyone_is_dead(t_philo *philo)
 	state = philo->data->status;
 	pthread_mutex_unlock(philo->data->death);
 	return (state);
+}
+
+void	thinking(t_philo *philo)
+{
+	if (check_if_anyone_is_dead(philo) != DEAD)
+		print_message(THINK, philo);
+}
+
+void	sleeping(t_philo *philo)
+{
+	if (check_if_anyone_is_dead(philo) != DEAD)
+	{
+		print_message(SLEEP, philo);
+		waiting(philo->data->time_to_sleep);
+	}
 }
 
 int	check_if_everyone_is_full(t_philo *philo)

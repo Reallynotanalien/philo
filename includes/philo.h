@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/02 17:41:40 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/02 18:20:21 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct philo
 
 void		*life_of_a_philo(void *i);
 long int	get_time(void);
+int			check_if_someone_died(t_philo *philo);
 
 /*error*/
 void		error_message(char *error);
