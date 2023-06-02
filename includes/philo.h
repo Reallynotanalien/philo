@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/02 18:20:21 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/02 18:28:38 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct data
 	pthread_mutex_t	*write_access;
 	pthread_mutex_t	*death;
 	pthread_mutex_t	*full;
+	pthread_mutex_t	*time;
 }			t_data;
 
 typedef struct philo
@@ -83,6 +84,7 @@ typedef struct philo
 void		*life_of_a_philo(void *i);
 long int	get_time(void);
 int			check_if_someone_died(t_philo *philo);
+int			check_if_dead(t_philo *philo);
 
 /*error*/
 void		error_message(char *error);

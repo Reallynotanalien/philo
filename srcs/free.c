@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:55:50 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/02 16:44:14 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/02 18:29:57 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@ void	destroy_and_free_data(t_data *data)
 	pthread_mutex_destroy(data->write_access);
 	pthread_mutex_destroy(data->death);
 	pthread_mutex_destroy(data->full);
+	pthread_mutex_destroy(data->time);
 	free(data->fork);
 	free(data->write_access);
 	free(data->death);
 	free(data->full);
+	free(data->time);
 	free(data);
 }

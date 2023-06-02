@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 15:36:21 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/02 17:32:40 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/02 18:29:36 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,14 @@ int	init_mutex(t_data *data)
 			pthread_mutex_destroy(data->death), free(data->fork),
 			free(data->write_access), free(data->death), free(data->full),
 			free(data), error_message(DEATH_MUTEX_ERROR), 1);
+	data->time = malloc(sizeof(pthread_mutex_t));
+	if (pthread_mutex_init(data->time, NULL) == -1)
+		return (destroy_forks(data), pthread_mutex_destroy(data->write_access),
+			pthread_mutex_destroy(data->death),
+			pthread_mutex_destroy (data->full),
+			free(data->fork), free(data->write_access), free(data->death),
+			free(data->full), free(data->time), free(data),
+			error_message(DEATH_MUTEX_ERROR), 1);
 	return (0);
 }
 

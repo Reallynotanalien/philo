@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:20:04 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/02 18:21:28 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/02 18:26:54 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	medical_checkup(t_philo *philo, t_data *data)
 	i = 0;
 	while (i < data->num_philos)
 	{
+		if (check_if_dead(&philo[i]) == DEAD)
+			return ;
 		if (check_if_someone_died(&philo[i]) == DEAD)
 			return ;
 		i++;
