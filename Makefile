@@ -6,7 +6,7 @@
 #    By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/05 20:32:19 by kafortin          #+#    #+#              #
-#    Updated: 2023/05/29 19:36:38 by kafortin         ###   ########.fr        #
+#    Updated: 2023/06/05 15:22:04 by kafortin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ CFLAGS = -Wall -Wextra -Werror -fsanitize=thread
 NAME = philo
 
 FILES = ./srcs/philo.c \
+		./srcs/data.c \
+		./srcs/death.c \
 		./srcs/init.c \
 		./srcs/error.c \
 		./srcs/free.c \

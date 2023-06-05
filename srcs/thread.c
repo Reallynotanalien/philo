@@ -6,22 +6,11 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:41:07 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/02 18:36:41 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/05 14:55:19 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-
-
-int	check_if_someone_died(t_philo *philo)
-{
-	int	status;
-
-	pthread_mutex_lock(philo->data->death);
-	status = philo->data->status;
-	pthread_mutex_unlock(philo->data->death);
-	return (status);
-}
 
 void	print_message(char *message, t_philo *philo)
 {
@@ -41,15 +30,6 @@ void	print_message(char *message, t_philo *philo)
 	}
 }
 
-void	change_status(t_philo *philo)
-{
-	pthread_mutex_lock(philo->data->death);
-	philo->status = DEAD;
-	philo->data->status = DEAD;
-	pthread_mutex_unlock(philo->data->death);
-	print_message(DIE, philo);
-}
-
 int	check_if_full(t_philo *philo)
 {
 	if (philo->data->num_meals != 0)
@@ -63,24 +43,6 @@ int	check_if_full(t_philo *philo)
 			pthread_mutex_unlock(philo->data->death);
 		}
 	}
-	return (philo->status);
-}
-
-int	check_if_dead(t_philo *philo)
-{
-	long int	now;
-
-	now = get_time();
-	pthread_mutex_lock(philo->data->time);
-	if (philo->timer != 0 && now - philo->timer >= philo->data->time_to_die)
-	{
-		if (philo->status != DEAD)
-			change_status(philo);
-		// philo->death_time = now - philo->timer;
-		// printf("%li %i %s", (get_time() - philo->data->beginning),
-		// 	philo->id, DIE);
-	}
-	pthread_mutex_unlock(philo->data->time);
 	return (philo->status);
 }
 

@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/02 18:28:38 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/05 15:04:35 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,18 @@ typedef struct philo
 }			t_philo;
 
 void		*life_of_a_philo(void *i);
+void		free_all(t_data *data);
+void		print_message(char *message, t_philo *philo);
 long int	get_time(void);
 int			check_if_someone_died(t_philo *philo);
 int			check_if_dead(t_philo *philo);
+
+/*data*/
+int			check_args(int argc, char **argv);
+
+/*death*/
+void		change_status(t_philo *philo);
+void		undertaker(t_philo *philo, t_data *data);
 
 /*error*/
 void		error_message(char *error);
@@ -94,6 +103,7 @@ void		error_message(char *error);
 
 /*free*/
 void		destroy_forks(t_data *data);
+void		destroy_mutexes(t_data *data);
 void		destroy_and_free_data(t_data *data);
 
 /*init*/
