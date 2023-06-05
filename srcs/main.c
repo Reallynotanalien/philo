@@ -1,29 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:20:04 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/05 14:49:18 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/05 15:42:22 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-
-void	wait_for_philos(t_philo *philo)
-{
-	int	i;
-
-	i = 0;
-	while (i < philo->data->num_philos)
-	{
-		if (pthread_join(philo[i].th, NULL) != 0)
-			return ;
-		i++;
-	}
-}
 
 int	main(int argc, char **argv)
 {

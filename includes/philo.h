@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/05 15:04:35 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/05 15:42:39 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void		print_message(char *message, t_philo *philo);
 long int	get_time(void);
 int			check_if_someone_died(t_philo *philo);
 int			check_if_dead(t_philo *philo);
+void		wait_for_philos(t_philo *philo);
 
 /*data*/
 int			check_args(int argc, char **argv);
