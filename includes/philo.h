@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/05 16:54:18 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/05 17:25:18 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,9 @@ typedef struct philo
 }			t_philo;
 
 void		*life_of_a_philo(void *i);
+void		change_full_status(t_philo *philo);
 void		eating(t_philo *philo);
+int			check_if_everyone_is_full(t_philo *philo);
 void		free_all(t_data *data);
 void		print_message(char *message, t_philo *philo);
 long int	get_time(void);

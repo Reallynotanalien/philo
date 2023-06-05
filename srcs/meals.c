@@ -6,11 +6,33 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 16:39:31 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/05 16:47:11 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/05 17:26:50 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+
+void	change_full_status(t_philo *philo)
+{
+	pthread_mutex_lock(philo->data->full);
+	pthread_mutex_lock(philo->data->death);
+	philo->status = END;
+	philo->data->status = END;
+	pthread_mutex_unlock(philo->data->full);
+	pthread_mutex_unlock(philo->data->death);
+}
+
+int	check_if_everyone_is_full(t_philo *philo)
+{
+	int	state;
+
+	pthread_mutex_lock(philo->data->full);
+	state = 0;
+	if (philo->data->full_philos == philo->data->num_philos)
+		state = END;
+	pthread_mutex_unlock(philo->data->full);
+	return (state);
+}
 
 void	check_number_of_meals(t_philo *philo)
 {

@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 14:33:50 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/05 16:55:51 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/05 17:25:40 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	undertaker(t_philo *philo, t_data *data)
 			return ;
 		if (check_if_everyone_is_full(philo) == END)
 		{
+			change_full_status(philo);
 			print_message(FULL, philo);
 			return ;
 		}

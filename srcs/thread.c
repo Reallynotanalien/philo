@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:41:07 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/05 16:59:10 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/05 17:13:08 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,6 @@ void	sleeping(t_philo *philo)
 		print_message(SLEEP, philo);
 		waiting(TIME_TO_SLEEP, philo);
 	}
-}
-
-int	check_if_everyone_is_full(t_philo *philo)
-{
-	int	state;
-
-	pthread_mutex_lock(philo->data->full);
-	state = 0;
-	if (philo->data->full_philos == philo->data->num_philos)
-		state = END;
-	pthread_mutex_unlock(philo->data->full);
-	return (state);
 }
 
 void	*life_of_a_philo(void *i)
