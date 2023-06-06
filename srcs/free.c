@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:55:50 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/05 15:21:51 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:32:33 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ void	destroy_mutexes(t_data *data)
 {
 	if (data->write_access)
 		pthread_mutex_destroy(data->write_access);
-	if (data->death)
-		pthread_mutex_destroy(data->death);
-	if (data->full)
-		pthread_mutex_destroy(data->full);
+	if (data->status_check)
+		pthread_mutex_destroy(data->status_check);
+	if (data->meals)
+		pthread_mutex_destroy(data->meals);
 	if (data->time)
 		pthread_mutex_destroy(data->time);
 }
@@ -46,14 +46,14 @@ void	free_all(t_data *data)
 		return ;
 	else
 		free(data->write_access);
-	if (data->death == NULL)
+	if (data->status_check == NULL)
 		return ;
 	else
-		free(data->death);
-	if (data->full == NULL)
+		free(data->status_check);
+	if (data->meals == NULL)
 		return ;
 	else
-		free(data->full);
+		free(data->meals);
 	if (data->time == NULL)
 		return ;
 	else

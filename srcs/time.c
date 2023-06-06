@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 17:46:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/05 16:44:41 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:38:58 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,16 @@ long int	get_time(void)
 
 	gettimeofday(&now, NULL);
 	return ((now.tv_sec * 1000) + (now.tv_usec / 1000));
+}
+
+long int	get_time_in_ms(t_philo *philo)
+{
+	long int	now;
+	
+	pthread_mutex_lock(philo->data->time);
+	now = get_time() - philo->data->beginning;
+	pthread_mutex_unlock(philo->data->time);
+	return (now);
 }
 
 void	waiting(int time, t_philo *philo)
@@ -41,6 +51,16 @@ void	waiting(int time, t_philo *philo)
 			return ;
 		usleep(50);
 	}
+}
+
+long int	check_timer(t_philo *philo)
+{
+	long int	check;
+
+	pthread_mutex_lock(philo->data->time);
+	check = philo->timer;
+	pthread_mutex_unlock(philo->data->time);
+	return (check);
 }
 
 void	adjust_timer(t_philo *philo)

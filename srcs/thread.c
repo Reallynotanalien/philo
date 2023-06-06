@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:41:07 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/05 17:13:08 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:25:00 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,23 @@
 void	print_message(char *message, t_philo *philo)
 {
 	if (check_if_someone_died(philo) != DEAD
-		&& check_if_everyone_is_full(philo) != END)
+		&& check_if_everyone_is_full(philo) != FULL)
 	{
 		pthread_mutex_lock(philo->data->write_access);
-		pthread_mutex_lock(philo->data->time);
-		printf("%li %i %s", (get_time() - philo->data->beginning),
-			philo->id, message);
+		printf("%li %i %s", get_time_in_ms(philo), philo->id, message);
 		pthread_mutex_unlock(philo->data->write_access);
-		pthread_mutex_unlock(philo->data->time);
 	}
 	else if (ft_strcmp(message, DIE) == 0)
 	{
 		pthread_mutex_lock(philo->data->write_access);
-		pthread_mutex_lock(philo->data->time);
-		printf("%li %i %s", (get_time() - philo->data->beginning),
-			philo->id, message);
+		printf("%li %i %s", get_time_in_ms(philo), philo->id, message);
 		pthread_mutex_unlock(philo->data->write_access);
-		pthread_mutex_unlock(philo->data->time);
 	}
-	else if (ft_strcmp(message, FULL) == 0)
+	else if (ft_strcmp(message, STOP_EATING) == 0)
 	{
 		pthread_mutex_lock(philo->data->write_access);
-		pthread_mutex_lock(philo->data->time);
-		printf("%li %s", (get_time() - philo->data->beginning), message);
+		printf("%li %s", get_time_in_ms(philo), message);
 		pthread_mutex_unlock(philo->data->write_access);
-		pthread_mutex_unlock(philo->data->time);
 	}
 }
 
@@ -66,7 +58,7 @@ void	*life_of_a_philo(void *i)
 	if (philo->id % 2 == 0)
 		usleep(15000);
 	while (check_if_someone_died(philo) != DEAD
-		&& check_if_everyone_is_full(philo) != END)
+		&& check_if_everyone_is_full(philo) != FULL)
 	{
 		eating(philo);
 		sleeping(philo);

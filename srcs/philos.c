@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 15:36:21 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/05 15:44:14 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:39:21 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	init_philo_data(t_philo *philo, t_data *data)
 		philo[i].meals = 1;
 		philo[i].num_philos = data->num_philos;
 		//philo.num_philo really necessary?
-		philo[i].death_time = 0;
 		philo[i].timer = 0;
 		philo[i].right_fork = &data->fork[i];
 		i++;

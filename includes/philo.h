@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/05 17:25:18 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:39:15 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,11 @@
 # include <pthread.h>
 # include <sys/time.h>
 
-# define END 1
+# define FULL 1
 # define DEAD 2
-# define IDLE 3
-# define TIME_TO_DIE 4
-# define TIME_TO_EAT 5
-# define TIME_TO_SLEEP 6
+# define TIME_TO_DIE 3
+# define TIME_TO_EAT 4
+# define TIME_TO_SLEEP 5
 
 /*ERROR MESSAGES*/
 # define ARG_NUM_ERROR "The program needs between 5 and 6 arguments: \
@@ -50,7 +49,7 @@ philo to eat, sleep or die. Come on.\n"
 # define SLEEP "is sleeping 💤\n"
 # define THINK "is thinking 💭\n"
 # define DIE "died ☠️\n"
-# define FULL "Everyone is full!\n"
+# define STOP_EATING "Everyone is full!\n"
 
 /*STRUCTS*/
 typedef struct data
@@ -66,8 +65,8 @@ typedef struct data
 	long int		now;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	*write_access;
-	pthread_mutex_t	*death;
-	pthread_mutex_t	*full;
+	pthread_mutex_t	*status_check;
+	pthread_mutex_t	*meals;
 	pthread_mutex_t	*time;
 }			t_data;
 
@@ -79,14 +78,15 @@ typedef struct philo
 	int				meals;
 	int				num_philos;
 	long int		timer;
-	long int		death_time;
 	pthread_t		th;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 }			t_philo;
 
 void		*life_of_a_philo(void *i);
-void		change_full_status(t_philo *philo);
+long int	check_timer(t_philo *philo);
+long int	get_time_in_ms(t_philo *philo);
+void		change_status_to_full(t_philo *philo);
 void		eating(t_philo *philo);
 int			check_if_everyone_is_full(t_philo *philo);
 void		free_all(t_data *data);
@@ -101,7 +101,7 @@ int			check_if_everyone_is_full(t_philo *philo);
 int			check_args(int argc, char **argv);
 
 /*death*/
-void		change_status(t_philo *philo);
+void		change_status_to_dead(t_philo *philo);
 void		undertaker(t_philo *philo, t_data *data);
 
 /*error*/

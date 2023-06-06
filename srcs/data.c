@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 14:48:33 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/05 15:18:26 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:32:24 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,12 @@ int	init_mutex(t_data *data)
 	if (pthread_mutex_init(data->write_access, NULL) == -1)
 		return (destroy_and_free_data(data),
 			error_message(WRITE_MUTEX_ERROR), 1);
-	data->death = malloc(sizeof(pthread_mutex_t));
-	if (pthread_mutex_init(data->death, NULL) == -1)
+	data->status_check = malloc(sizeof(pthread_mutex_t));
+	if (pthread_mutex_init(data->status_check, NULL) == -1)
 		return (destroy_and_free_data(data),
 			error_message(DEATH_MUTEX_ERROR), 1);
-	data->full = malloc(sizeof(pthread_mutex_t));
-	if (pthread_mutex_init(data->full, NULL) == -1)
+	data->meals = malloc(sizeof(pthread_mutex_t));
+	if (pthread_mutex_init(data->meals, NULL) == -1)
 		return (destroy_and_free_data(data),
 			error_message(DEATH_MUTEX_ERROR), 1);
 	data->time = malloc(sizeof(pthread_mutex_t));
