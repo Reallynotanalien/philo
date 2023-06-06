@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 16:39:31 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/06 17:21:25 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:22:26 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	take_forks(t_philo *philo)
 	}
 	if (check_if_someone_died(philo) != DEAD)
 	{
-		//if I use philo->num_philo up in the check if everyone is full function I need to use a mutex
 		if (philo->data->num_philos == 1)
 		{
 			waiting(TIME_TO_DIE, philo);
