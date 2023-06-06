@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:51:02 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/02 17:41:30 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/06 16:42:41 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,10 @@ int	ft_strcmp(const char *str1, const char *str2)
 		a++;
 	}
 	return (0);
+}
+
+void	error_message(char *error)
+{
+	write(2, "ERROR - ", 8);
+	write(2, error, ft_strlen(error));
 }

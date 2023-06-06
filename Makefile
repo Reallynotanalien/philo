@@ -6,7 +6,7 @@
 #    By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/05 20:32:19 by kafortin          #+#    #+#              #
-#    Updated: 2023/06/05 16:40:44 by kafortin         ###   ########.fr        #
+#    Updated: 2023/06/06 16:42:54 by kafortin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,6 @@ NAME = philo
 FILES = ./srcs/main.c \
 		./srcs/data.c \
 		./srcs/death.c \
-		./srcs/error.c \
 		./srcs/free.c \
 		./srcs/meals.c \
 		./srcs/philos.c \
