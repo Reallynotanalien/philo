@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:41:07 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/06 15:25:00 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:13:14 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,13 @@ void	sleeping(t_philo *philo)
 	}
 }
 
+/*This is the philosophers routine, each thread will complete it.
+Since we need the t_philo struct, we will need to create a copy of
+it to be able to use it since we sent a void * to the function. Then,
+there is a delay for all philos with a number that is divided by 2 so
+that they won't try to take all their forks at the same time.
+The routine then starts and will go on until a philosopher dies or
+everyone is full. They eat, sleep and think.*/
 void	*life_of_a_philo(void *i)
 {
 	t_philo	*philo;

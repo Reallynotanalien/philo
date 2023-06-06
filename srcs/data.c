@@ -6,12 +6,14 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 14:48:33 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/06 15:32:24 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:03:33 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
+/*Checks if the number of args is good and if they are all digits. If anything
+goes wrong, prints an error message before returning 1.*/
 int	check_args(int argc, char **argv)
 {
 	if (argc > 6 || argc < 5)
@@ -21,6 +23,9 @@ int	check_args(int argc, char **argv)
 	return (0);
 }
 
+/*Initializes all the data with the arguments that were sent to the program.
+Also checks if there is not more than 200 philos, or if there is any at all.
+If anything goes wrong, prints an error message before returning 1.*/
 int	init_data(int argc, char **argv, t_data *data)
 {
 	data->num_philos = ft_atoi(argv[1]);
@@ -43,6 +48,10 @@ int	init_data(int argc, char **argv, t_data *data)
 	return (0);
 }
 
+/*Mallocs the fork mutex and initializes as many forks as there is philos.
+If anything goes wrong, all of the previously created forks (if there were
+any) are destroyed and the data is freed before printing an error message
+and returning 1.*/
 int	init_forks(t_data *data)
 {
 	int	i;
@@ -66,6 +75,9 @@ int	init_forks(t_data *data)
 	return (0);
 }
 
+/*Initializes all the forks one by one and then mallocs and initializes
+all the necessary mutexes for the program. If anything goes wrong, prints
+an error message and free all mallocked data and mutexes before returning 1.*/
 int	init_mutex(t_data *data)
 {
 	if (init_forks(data) != 0)

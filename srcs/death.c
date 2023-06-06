@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 14:33:50 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/06 15:37:47 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:20:25 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ int	check_philo_status(t_philo *philo)
 	return (status);
 }
 
+/*Checks the data status, which is updated when one philosopher dies, and
+returns it. To avoid data races we need to lock the data->status variable
+so it is not accessible to others at the same time by locking the
+status_check mutex.*/
 int	check_if_someone_died(t_philo *philo)
 {
 	int	status;
@@ -48,7 +52,8 @@ int	check_if_dead(t_philo *philo)
 
 	now = get_time();
 	status = check_philo_status(philo);
-	if (check_timer(philo) != 0 && now - check_timer(philo) >= philo->data->time_to_die)
+	if (check_timer(philo) != 0
+		&& now - check_timer(philo) >= philo->data->time_to_die)
 	{
 		if (status != DEAD && status != FULL)
 			change_status_to_dead(philo);

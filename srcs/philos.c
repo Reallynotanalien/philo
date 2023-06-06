@@ -6,12 +6,14 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 15:36:21 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/06 15:39:21 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:09:23 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
+/*Initializes all the philo data and associates each philosopher with his 
+respective right fork.*/
 void	init_philo_data(t_philo *philo, t_data *data)
 {
 	int	i;
@@ -23,14 +25,17 @@ void	init_philo_data(t_philo *philo, t_data *data)
 		philo[i].id = i + 1;
 		philo[i].status = 0;
 		philo[i].meals = 1;
-		philo[i].num_philos = data->num_philos;
-		//philo.num_philo really necessary?
 		philo[i].timer = 0;
 		philo[i].right_fork = &data->fork[i];
 		i++;
 	}
 }
 
+/*Initializes all of the philo data (including associating each philosopher with
+his respective right fork), then creates a chain to associate the left fork of
+each philo to his neighboor's right fork. One by one, the threads are created
+and the routine starts. If anything goes wrong, prints and error message and
+frees all mallocked data and destroy all mutexes before returning 1. */
 int	init_philos(t_philo *philo, t_data *data)
 {
 	int	i;

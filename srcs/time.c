@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 17:46:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/06 15:38:58 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/06 16:51:38 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ long int	get_time(void)
 long int	get_time_in_ms(t_philo *philo)
 {
 	long int	now;
-	
+
 	pthread_mutex_lock(philo->data->time);
 	now = get_time() - philo->data->beginning;
 	pthread_mutex_unlock(philo->data->time);
