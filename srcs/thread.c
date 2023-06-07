@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:41:07 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/06 17:13:14 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:00:58 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 void	print_message(char *message, t_philo *philo)
 {
 	if (check_if_someone_died(philo) != DEAD
-		&& check_if_everyone_is_full(philo) != FULL)
+		&& check_if_everyone_is_full(philo) != FULL
+		&& get_time() > philo->data->death_time)
 	{
 		pthread_mutex_lock(philo->data->write_access);
-		printf("%li %i %s", get_time_in_ms(philo), philo->id, message);
+		if (get_time() > philo->data->death_time)
+			printf("%li %i %s", get_time_in_ms(philo), philo->id, message);
 		pthread_mutex_unlock(philo->data->write_access);
 	}
 	else if (ft_strcmp(message, DIE) == 0)
@@ -38,15 +40,19 @@ void	print_message(char *message, t_philo *philo)
 void	thinking(t_philo *philo)
 {
 	if (check_if_someone_died(philo) != DEAD)
-		print_message(THINK, philo);
+		if (check_if_dead(philo) != DEAD)
+			print_message(THINK, philo);
 }
 
 void	sleeping(t_philo *philo)
 {
 	if (check_if_someone_died(philo) != DEAD)
 	{
-		print_message(SLEEP, philo);
-		waiting(TIME_TO_SLEEP, philo);
+		if (check_if_dead(philo) != DEAD)
+		{
+			print_message(SLEEP, philo);
+			waiting(TIME_TO_SLEEP, philo);
+		}
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 14:33:50 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/06 17:20:25 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/07 15:54:05 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 void	change_status_to_dead(t_philo *philo)
 {
+	if (check_if_someone_died(philo) != DEAD)
+		print_message(DIE, philo);
 	pthread_mutex_lock(philo->data->status_check);
 	philo->status = DEAD;
 	philo->data->status = DEAD;
 	pthread_mutex_unlock(philo->data->status_check);
-	print_message(DIE, philo);
 }
 
 int	check_philo_status(t_philo *philo)
@@ -56,7 +57,12 @@ int	check_if_dead(t_philo *philo)
 		&& now - check_timer(philo) >= philo->data->time_to_die)
 	{
 		if (status != DEAD && status != FULL)
+		{
 			change_status_to_dead(philo);
+			pthread_mutex_lock(philo->data->time);
+			philo->data->death_time = now;
+			pthread_mutex_unlock(philo->data->time);
+		}
 	}
 	return (status);
 }
@@ -71,7 +77,15 @@ void	undertaker(t_philo *philo, t_data *data)
 		if (check_if_dead(&philo[i]) == DEAD)
 			return ;
 		if (check_if_someone_died(&philo[i]) == DEAD)
+		{
+			i = 0;
+			while (i < data->num_philos)
+			{
+				change_status_to_dead(&philo[i]);
+				i++;
+			}
 			return ;
+		}
 		if (check_if_everyone_is_full(philo) == FULL)
 		{
 			change_status_to_full(philo);
