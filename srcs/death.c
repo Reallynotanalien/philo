@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 14:33:50 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/07 15:54:05 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:12:27 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,20 @@ int	check_if_dead(t_philo *philo)
 	return (status);
 }
 
+void	kill_everyone(t_philo *philo, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	pthread_mutex_lock(philo->data->status_check);
+	while (i < data->num_philos)
+	{
+		philo[i].status = DEAD;
+		i++;
+	}
+	pthread_mutex_unlock(philo->data->status_check);
+}
+
 void	undertaker(t_philo *philo, t_data *data)
 {
 	int	i;
@@ -78,12 +92,7 @@ void	undertaker(t_philo *philo, t_data *data)
 			return ;
 		if (check_if_someone_died(&philo[i]) == DEAD)
 		{
-			i = 0;
-			while (i < data->num_philos)
-			{
-				change_status_to_dead(&philo[i]);
-				i++;
-			}
+			kill_everyone(philo, data);
 			return ;
 		}
 		if (check_if_everyone_is_full(philo) == FULL)

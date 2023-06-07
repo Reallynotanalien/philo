@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:41:07 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/07 16:00:58 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:20:17 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,16 @@ void	print_message(char *message, t_philo *philo)
 
 void	thinking(t_philo *philo)
 {
-	if (check_if_someone_died(philo) != DEAD)
-		if (check_if_dead(philo) != DEAD)
-			print_message(THINK, philo);
+	if (check_if_dead(philo) != DEAD)
+		print_message(THINK, philo);
 }
 
 void	sleeping(t_philo *philo)
 {
-	if (check_if_someone_died(philo) != DEAD)
+	if (check_if_dead(philo) != DEAD)
 	{
-		if (check_if_dead(philo) != DEAD)
-		{
-			print_message(SLEEP, philo);
-			waiting(TIME_TO_SLEEP, philo);
-		}
+		print_message(SLEEP, philo);
+		waiting(TIME_TO_SLEEP, philo);
 	}
 }
 
