@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 14:33:50 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/07 18:00:23 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/07 18:45:20 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ int	check_if_dead(t_philo *philo)
 
 	now = get_time();
 	status = check_philo_status(philo);
-	if (philo->data->time_to_die <= (philo->data->time_to_eat * 2)
+	if ((philo->data->num_philos % 2 == 0 && philo->data->time_to_die
+			<= (philo->data->time_to_eat * 2))
+		|| (philo->data->num_philos % 2 != 0 && philo->data->time_to_die
+			<= (philo->data->time_to_eat * 3))
 		|| philo->data->time_to_die <= philo->data->time_to_eat
 		+ philo->data->time_to_sleep)
 	{
@@ -74,7 +77,10 @@ int	check_if_dead2(t_philo *philo, t_data *data)
 
 	now = get_time();
 	status = check_philo_status(philo);
-	if (philo->data->time_to_die <= (philo->data->time_to_eat * 2)
+	if ((philo->data->num_philos % 2 == 0 && philo->data->time_to_die
+			<= (philo->data->time_to_eat * 2))
+		|| (philo->data->num_philos % 2 != 0 && philo->data->time_to_die
+			<= (philo->data->time_to_eat * 3))
 		|| philo->data->time_to_die <= philo->data->time_to_eat
 		+ philo->data->time_to_sleep)
 	{

@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 17:46:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/06 16:51:38 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/07 18:42:20 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,10 @@ long int	check_timer(t_philo *philo)
 	return (check);
 }
 
+/*Updates the philo->timer to the actual time to keep a log of when 
+the philo ate his last meal. To avoid data races we need to lock the 
+philo->timer variable so it is not accessible to others at the same 
+time by locking the time mutex.*/
 void	adjust_timer(t_philo *philo)
 {
 	pthread_mutex_lock(philo->data->time);

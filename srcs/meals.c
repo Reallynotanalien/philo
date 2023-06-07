@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 16:39:31 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/07 17:29:14 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/07 18:36:58 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,12 @@ void	check_number_of_meals(t_philo *philo)
 	}
 }
 
+/*Before locking the right fork, checks if the simulation should be
+over (due to a philo dying) and checks if the philo is dead(if it took
+too long to eat). The right fork is locked and the fork message is
+printed. Same process for the left fork, except that if the number of
+philos is one, this is where he will die or else he will be waiting 
+for the left fork forever.*/
 void	take_forks(t_philo *philo)
 {
 	if (check_if_someone_died(philo) != DEAD
@@ -82,9 +88,12 @@ void	take_forks(t_philo *philo)
 	}
 }
 
+/*Locks the right fork, then locks the left fork and starts the timer
+to know when was the last meal. The philo starts eating for the duration
+of the time_to_eat variable then unlocks the forks, before checking if 
+the philo is full.*/
 void	eating(t_philo *philo)
 {
-	//philo must check if both forks are accessible before taking them.
 	take_forks(philo);
 	adjust_timer(philo);
 	print_message(EAT, philo);
