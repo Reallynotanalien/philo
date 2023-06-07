@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 14:33:50 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/07 16:12:27 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:28:15 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,7 @@ void	undertaker(t_philo *philo, t_data *data)
 	i = 0;
 	while (i < data->num_philos)
 	{
-		if (check_if_dead(&philo[i]) == DEAD)
-			return ;
+		check_if_dead(&philo[i]);
 		if (check_if_someone_died(&philo[i]) == DEAD)
 		{
 			kill_everyone(philo, data);
