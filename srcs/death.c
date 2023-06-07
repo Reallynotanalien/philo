@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 14:33:50 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/07 16:58:11 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/07 17:15:54 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,12 @@ int	check_if_dead2(t_philo *philo, t_data *data)
 		if (status != DEAD && status != FULL)
 		{
 			pthread_mutex_lock(philo->data->status_check);
+			philo->status = DEAD;
 			data->status = DEAD;
 			pthread_mutex_unlock(philo->data->status_check);
 			pthread_mutex_lock(philo->data->time);
 			philo->data->death_time = now;
 			pthread_mutex_unlock(philo->data->time);
-			print_message(DIE, philo);
 		}
 	}
 	return (status);
@@ -115,6 +115,7 @@ void	undertaker(t_philo *philo, t_data *data)
 	{
 		if (check_if_dead2(&philo[i], data) == DEAD)
 		{
+			print_message(DIE, philo);
 			kill_everyone(philo, data);
 			return ;
 		}
