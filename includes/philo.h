@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/07 15:51:12 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/07 17:48:19 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ typedef struct data
 	int				status;
 	int				full_philos;
 	long int		beginning;
-	long int		death_time;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	*write_access;
 	pthread_mutex_t	*status_check;

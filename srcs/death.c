@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 14:33:50 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/07 17:39:08 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/07 18:00:23 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,15 @@ int	check_if_dead(t_philo *philo)
 
 	now = get_time();
 	status = check_philo_status(philo);
-	if (philo->data->time_to_die <= philo->data->time_to_eat + philo->data->time_to_sleep)
+	if (philo->data->time_to_die <= (philo->data->time_to_eat * 2)
+		|| philo->data->time_to_die <= philo->data->time_to_eat
+		+ philo->data->time_to_sleep)
 	{
 		if (check_timer(philo) != 0
 			&& now - check_timer(philo) >= philo->data->time_to_die)
 		{
 			if (status != DEAD && status != FULL)
-			{
 				change_status_to_dead(philo);
-				pthread_mutex_lock(philo->data->time);
-				philo->data->death_time = now;
-				pthread_mutex_unlock(philo->data->time);
-			}
 		}
 	}
 	return (status);
@@ -77,7 +74,9 @@ int	check_if_dead2(t_philo *philo, t_data *data)
 
 	now = get_time();
 	status = check_philo_status(philo);
-	if (philo->data->time_to_die <= philo->data->time_to_eat + philo->data->time_to_sleep)
+	if (philo->data->time_to_die <= (philo->data->time_to_eat * 2)
+		|| philo->data->time_to_die <= philo->data->time_to_eat
+		+ philo->data->time_to_sleep)
 	{
 		if (check_timer(philo) != 0
 			&& now - check_timer(philo) >= philo->data->time_to_die)
@@ -88,9 +87,6 @@ int	check_if_dead2(t_philo *philo, t_data *data)
 				philo->status = DEAD;
 				data->status = DEAD;
 				pthread_mutex_unlock(philo->data->status_check);
-				pthread_mutex_lock(philo->data->time);
-				philo->data->death_time = now;
-				pthread_mutex_unlock(philo->data->time);
 			}
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 14:48:33 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/07 15:51:35 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/07 17:48:12 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	init_data(int argc, char **argv, t_data *data)
 	data->status = 0;
 	data->full_philos = 0;
 	data->beginning = get_time();
-	data->death_time = 0;
 	return (0);
 }
 
