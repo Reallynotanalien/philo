@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 16:39:31 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/07 16:23:41 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/07 17:29:14 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,14 @@ void	check_number_of_meals(t_philo *philo)
 
 void	take_forks(t_philo *philo)
 {
-	if (check_if_someone_died(philo) != DEAD)
+	if (check_if_someone_died(philo) != DEAD
+		&& check_if_dead(philo) != DEAD)
 	{
 		pthread_mutex_lock(philo->right_fork);
 		print_message(FORK, philo);
 	}
-	if (check_if_someone_died(philo) != DEAD)
+	if (check_if_someone_died(philo) != DEAD
+		&& check_if_dead(philo) != DEAD)
 	{
 		if (philo->data->num_philos == 1)
 		{

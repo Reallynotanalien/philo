@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:41:07 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/07 16:20:17 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/07 17:34:26 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@ void	print_message(char *message, t_philo *philo)
 {
 	if (check_if_someone_died(philo) != DEAD
 		&& check_if_everyone_is_full(philo) != FULL
-		&& get_time() > philo->data->death_time)
+		&& check_if_dead(philo) != DEAD)
 	{
 		pthread_mutex_lock(philo->data->write_access);
-		if (get_time() > philo->data->death_time)
-			printf("%li %i %s", get_time_in_ms(philo), philo->id, message);
+		printf("%li %i %s", get_time_in_ms(philo), philo->id, message);
 		pthread_mutex_unlock(philo->data->write_access);
 	}
 	else if (ft_strcmp(message, DIE) == 0)
