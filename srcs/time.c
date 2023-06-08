@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 17:46:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/07 18:42:20 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/07 20:03:16 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,46 +30,17 @@ long int	get_time_in_ms(t_philo *philo)
 	return (now);
 }
 
-void	waiting(int time, t_philo *philo)
+void	waiting(int time)
 {
 	long int	wait_until;
 	long int	ms;
 
-	ms = 0;
-	pthread_mutex_lock(philo->data->time);
-	if (time == TIME_TO_DIE)
-		ms = philo->data->time_to_die;
-	else if (time == TIME_TO_EAT)
-		ms = philo->data->time_to_eat;
-	else if (time == TIME_TO_SLEEP)
-		ms = philo->data->time_to_sleep;
-	pthread_mutex_unlock(philo->data->time);
+	ms = time;
 	wait_until = get_time() + ms;
 	while (1)
 	{
 		if (get_time() >= wait_until)
 			return ;
-		usleep(50);
+		usleep(1000);
 	}
-}
-
-long int	check_timer(t_philo *philo)
-{
-	long int	check;
-
-	pthread_mutex_lock(philo->data->time);
-	check = philo->timer;
-	pthread_mutex_unlock(philo->data->time);
-	return (check);
-}
-
-/*Updates the philo->timer to the actual time to keep a log of when 
-the philo ate his last meal. To avoid data races we need to lock the 
-philo->timer variable so it is not accessible to others at the same 
-time by locking the time mutex.*/
-void	adjust_timer(t_philo *philo)
-{
-	pthread_mutex_lock(philo->data->time);
-	philo->timer = get_time();
-	pthread_mutex_unlock(philo->data->time);
 }

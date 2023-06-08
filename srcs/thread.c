@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:41:07 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/07 18:39:10 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/07 20:15:44 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,46 +16,15 @@
 going on! To make sure it is, this function checks if someone died or if
 everyone is full before printing anything. Since we do not want messages from
 multiple threads printing at the same time, we need to lock the write_access
-mutex before printing.
-If the simulation is over, the appropriate message will be printed thanks to
-the two else if statements at the end of the function. Every other action
-message should not be able to print.*/
+mutex before printing.*/
 void	print_message(char *message, t_philo *philo)
 {
 	if (check_if_someone_died(philo) != DEAD
-		&& check_if_everyone_is_full(philo) != FULL
-		&& check_if_dead(philo) != DEAD)
+		&& check_if_everyone_is_full(philo) != FULL)
 	{
 		pthread_mutex_lock(philo->data->write_access);
 		printf("%li %i %s", get_time_in_ms(philo), philo->id, message);
 		pthread_mutex_unlock(philo->data->write_access);
-	}
-	else if (ft_strcmp(message, DIE) == 0)
-	{
-		pthread_mutex_lock(philo->data->write_access);
-		printf("%li %i %s", get_time_in_ms(philo), philo->id, message);
-		pthread_mutex_unlock(philo->data->write_access);
-	}
-	else if (ft_strcmp(message, STOP_EATING) == 0)
-	{
-		pthread_mutex_lock(philo->data->write_access);
-		printf("%li %s", get_time_in_ms(philo), message);
-		pthread_mutex_unlock(philo->data->write_access);
-	}
-}
-
-void	thinking(t_philo *philo)
-{
-	if (check_if_dead(philo) != DEAD)
-		print_message(THINK, philo);
-}
-
-void	sleeping(t_philo *philo)
-{
-	if (check_if_dead(philo) != DEAD)
-	{
-		print_message(SLEEP, philo);
-		waiting(TIME_TO_SLEEP, philo);
 	}
 }
 
@@ -77,8 +46,9 @@ void	*life_of_a_philo(void *i)
 		&& check_if_everyone_is_full(philo) != FULL)
 	{
 		eating(philo);
-		sleeping(philo);
-		thinking(philo);
+		print_message(SLEEP, philo);
+		waiting(philo->sleep);
+		print_message(THINK, philo);
 	}
 	return (NULL);
 }

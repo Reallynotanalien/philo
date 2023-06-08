@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/07 18:38:10 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/07 20:06:41 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,10 @@ typedef struct philo
 	int				id;
 	int				status;
 	int				meals;
+	int				die;
+	int				eat;
+	int				sleep;
+	int				num;
 	long int		timer;
 	pthread_t		th;
 	pthread_mutex_t	*left_fork;
@@ -114,15 +118,12 @@ void		*life_of_a_philo(void *i);
 /*time*/
 long int	get_time(void);
 long int	get_time_in_ms(t_philo *philo);
-void		waiting(int time, t_philo *philo);
-long int	check_timer(t_philo *philo);
-void		adjust_timer(t_philo *philo);
+void		waiting(int time);
 
 /*utils*/
 int			ft_isdigit(int argc, char **argv);
 size_t		ft_strlen(const char *str);
 long		ft_atoi(const char *str);
-int			ft_strcmp(const char *str1, const char *str2);
 void		error_message(char *error);
 
 #endif
