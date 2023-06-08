@@ -6,12 +6,16 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 16:39:31 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/07 20:21:59 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/07 21:36:20 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
+/*Changes both the philo status and the data status to FULL to let the
+undertaker know everyone is full. To avoid data races, we need to lock the 
+data->status variable so it is not accessible to others at the same time by
+locking the status_check mutex.*/
 void	change_status_to_full(t_philo *philo)
 {
 	pthread_mutex_lock(philo->data->status_check);
@@ -39,15 +43,19 @@ int	check_if_everyone_is_full(t_philo *philo)
 	return (state);
 }
 
+/*Checks if the philo has eaten the number of meals that he should. If
+he did not, increments philo->meals to let the program know he ate one more
+time. If he did, the philo status is changed to FULL and the number of full
+philos is incremented.*/
 void	check_number_of_meals(t_philo *philo)
 {
-	if (philo->data->num_meals > philo->meals)
+	if (philo->total_meals > philo->meals)
 	{
 		pthread_mutex_lock(philo->data->meals);
 		philo->meals++;
 		pthread_mutex_unlock(philo->data->meals);
 	}
-	else if (philo->data->num_meals == philo->meals)
+	else if (philo->total_meals == philo->meals)
 	{
 		pthread_mutex_lock(philo->data->status_check);
 		philo->status = FULL;
@@ -95,10 +103,14 @@ the philo is full.*/
 void	eating(t_philo *philo)
 {
 	take_forks(philo);
-	print_message(EAT, philo);
-	waiting(philo->eat);
+	if (check_philo_status(philo) != DEAD
+		&& check_philo_status(philo) != FULL)
+	{
+		print_message(EAT, philo);
+		waiting(philo->eat);
+	}
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
-	if (philo->data->num_meals != 0)
+	if (philo->total_meals != 0)
 		check_number_of_meals(philo);
 }

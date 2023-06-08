@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:20:04 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/06 16:56:09 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/07 21:34:07 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int	main(int argc, char **argv)
 	if (init_philos(philo, data) != 0)
 		return (1);
 	undertaker(philo, data);
-	wait_for_philos(philo);
-	destroy_and_free_data(data);
+	reaper(philo);
+	destroyer(data);
 	free(philo);
 	return (0);
 }

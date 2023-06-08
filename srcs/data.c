@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 14:48:33 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/07 19:56:06 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/07 21:34:48 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,19 +84,19 @@ int	init_mutex(t_data *data)
 		return (1);
 	data->write_access = malloc(sizeof(pthread_mutex_t));
 	if (pthread_mutex_init(data->write_access, NULL) == -1)
-		return (destroy_and_free_data(data),
+		return (destroyer(data),
 			error_message(WRITE_MUTEX_ERROR), 1);
 	data->status_check = malloc(sizeof(pthread_mutex_t));
 	if (pthread_mutex_init(data->status_check, NULL) == -1)
-		return (destroy_and_free_data(data),
+		return (destroyer(data),
 			error_message(DEATH_MUTEX_ERROR), 1);
 	data->meals = malloc(sizeof(pthread_mutex_t));
 	if (pthread_mutex_init(data->meals, NULL) == -1)
-		return (destroy_and_free_data(data),
+		return (destroyer(data),
 			error_message(DEATH_MUTEX_ERROR), 1);
 	data->time = malloc(sizeof(pthread_mutex_t));
 	if (pthread_mutex_init(data->time, NULL) == -1)
-		return (destroy_and_free_data(data),
+		return (destroyer(data),
 			error_message(DEATH_MUTEX_ERROR), 1);
 	return (0);
 }

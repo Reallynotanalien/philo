@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:51:02 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/07 19:49:18 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/07 21:41:06 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ long	ft_atoi(const char *str)
 	return (res * sign);
 }
 
+/*Writes ERROR - followed with the error message sent as an argument to
+the error fd.*/
 void	error_message(char *error)
 {
 	write(2, "ERROR - ", 8);

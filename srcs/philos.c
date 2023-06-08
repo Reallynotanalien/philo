@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 15:36:21 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/07 20:07:59 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/07 21:34:48 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ void	init_philo_data(t_philo *philo, t_data *data)
 		philo[i].die = data->time_to_die;
 		philo[i].eat = data->time_to_eat;
 		philo[i].sleep = data->time_to_sleep;
-		philo[i].right_fork = &data->fork[i];
 		philo[i].num = data->num_philos;
+		philo[i].total_meals = data->num_meals;
+		philo[i].right_fork = &data->fork[i];
 		i++;
 	}
 }
@@ -54,14 +55,15 @@ int	init_philos(t_philo *philo, t_data *data)
 			philo[i].left_fork = philo[i - 1].right_fork;
 		if (pthread_create(&philo[i].th, NULL, &life_of_a_philo,
 				&philo[i]) != 0)
-			return (destroy_and_free_data(data), free(philo),
+			return (destroyer(data), free(philo),
 				error_message(THREAD_CREATE_ERROR), 1);
 		i++;
 	}
 	return (0);
 }
 
-void	wait_for_philos(t_philo *philo)
+/*Waits for all the threads to finish.*/
+void	reaper(t_philo *philo)
 {
 	int	i;
 

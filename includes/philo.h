@@ -6,7 +6,7 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:19:55 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/07 20:06:41 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/07 21:34:13 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct philo
 	int				eat;
 	int				sleep;
 	int				num;
+	int				total_meals;
 	long int		timer;
 	pthread_t		th;
 	pthread_mutex_t	*left_fork;
@@ -92,6 +93,7 @@ int			init_mutex(t_data *data);
 
 /*death*/
 void		change_status_to_dead(t_philo *philo);
+int			check_philo_status(t_philo *philo);
 int			check_if_someone_died(t_philo *philo);
 int			check_if_dead(t_philo *philo);
 void		undertaker(t_philo *philo, t_data *data);
@@ -100,7 +102,7 @@ void		undertaker(t_philo *philo, t_data *data);
 void		destroy_forks(t_data *data);
 void		destroy_mutexes(t_data *data);
 void		free_all_data(t_data *data);
-void		destroy_and_free_data(t_data *data);
+void		destroyer(t_data *data);
 
 /*meals*/
 void		change_status_to_full(t_philo *philo);
@@ -109,7 +111,7 @@ void		eating(t_philo *philo);
 
 /*philos*/
 int			init_philos(t_philo *philo, t_data *data);
-void		wait_for_philos(t_philo *philo);
+void		reaper(t_philo *philo);
 
 /*thread*/
 void		print_message(char *message, t_philo *philo);
@@ -119,6 +121,7 @@ void		*life_of_a_philo(void *i);
 long int	get_time(void);
 long int	get_time_in_ms(t_philo *philo);
 void		waiting(int time);
+int			destiny_checker(t_philo *philo);
 
 /*utils*/
 int			ft_isdigit(int argc, char **argv);

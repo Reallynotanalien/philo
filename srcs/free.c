@@ -6,12 +6,13 @@
 /*   By: kafortin <kafortin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:55:50 by kafortin          #+#    #+#             */
-/*   Updated: 2023/06/07 19:56:23 by kafortin         ###   ########.fr       */
+/*   Updated: 2023/06/07 21:34:22 by kafortin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
+/*Destroys the forks mutexes one by one.*/
 void	destroy_forks(t_data *data)
 {
 	int	i;
@@ -24,6 +25,7 @@ void	destroy_forks(t_data *data)
 	}
 }
 
+/*Iterates through every mutexes and if they exist, destroys them.*/
 void	destroy_mutexes(t_data *data)
 {
 	if (data->write_access)
@@ -36,6 +38,8 @@ void	destroy_mutexes(t_data *data)
 		pthread_mutex_destroy(data->time);
 }
 
+/*Checks if all of the data components are mallocated and if they are,
+frees them.*/
 void	free_all_data(t_data *data)
 {
 	if (data->fork == NULL)
@@ -60,7 +64,9 @@ void	free_all_data(t_data *data)
 		free(data->time);
 }
 
-void	destroy_and_free_data(t_data *data)
+/*Destroys the fork mutexes and all of the other data mutexes, as well as
+freeing all allocated memory.*/
+void	destroyer(t_data *data)
 {
 	destroy_forks(data);
 	destroy_mutexes(data);
