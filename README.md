@@ -16,9 +16,9 @@ This README is not done yet so do not bother reading it hahaha or do but whateve
 * [What I would improve](#what-i-would-improve)
 
 ## Project overview
->Why did the five philosophers choose a round table for their dinner?
-> 
->Because they wanted to have a "well-rounded" discussion on whether it's possible to eat their meals without getting into a "forking" deadlock! 
+`Why did the five philosophers choose a round table for their dinner?`
+ 
+`Because they wanted to have a "well-rounded" discussion on whether it's possible to eat their meals without getting into a "forking" deadlock! `
 
 `...`
 
@@ -26,11 +26,13 @@ This project is 42's twist on 1965 Edsger Dijkstra's Dining Philosophers problem
 
 The problem is defined as follows: There are five philosophers sitting around a circular table, and each philosopher alternates between thinking and eating. There is a bowl of rice placed between each pair of adjacent philsopher and their neighbooring bowl. Therefore, there are five bowls and five chopsticks in total. The behavior of each philosopher is represented by a concurrent process or thread. To eat, a philosopher needs to pick up the two chopsticks adjacent to them. However, a chopstick can only be held by one philosopher at a time. This creates potential conflict if all philosophers decide to eat simultaneously and try to pick up their left chopstick at the same time. The challenge is to design a solution that ensures the followinf conditions are satisfied:
 
-1- Mutual Exclusion: Only one philosopher can hold a chopstick at a time.
-2- Deadlock-free: The system should not enter a state where all philosophers are waiting for a chopstick indefinitely.
-3- Starvation-free: Every philosopher should get a chance to eat eventually.
+1. Mutual Exclusion: Only one philosopher can hold a chopstick at a time.
+2. Deadlock-free: The system should not enter a state where all philosophers are waiting for a chopstick indefinitely.
+3. Starvation-free: Every philosopher should get a chance to eat eventually.
 
-In our case, the bowl of rice and chopsticks are replaced by Eminem's favorite meal, his mom's spaghetti, and forks, but the concept stays the same.
+In our case, the bowl of rice and chopsticks are replaced by Eminem's favorite meal, his mom's spaghetti, and forks. But the concept stays the same. Also, our simulation can contain a table holding from 1 to 200 philosophers, and they sleep after every meal. Each activity takes them an certain amount of time, and if they haven't eaten for a predefined "time to die", they will DIE. 💀 We do not want that to happen. 
+
+It's also important to note that the philosophers cannot communicate with one another. They do not know if another philosopher is about to die, they are only focused on their own routine. However, if a philosopher dies, the simulation should not continue!
 
 ## Instructions
 ### Compilation
