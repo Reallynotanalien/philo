@@ -9,11 +9,28 @@
 This README is not done yet so do not bother reading it hahaha or do but whatever ok bye
 
 ## Table of contents
-* [Instructions](#instructions)
 * [Project overview](#project-overview)
+* [Instructions](#instructions)
 * [Bonus](#bonus)
 * [What I learned](#what-i-learned)
 * [What I would improve](#what-i-would-improve)
+
+## Project overview
+>Why did the five philosophers choose a round table for their dinner?
+> 
+>Because they wanted to have a "well-rounded" discussion on whether it's possible to eat their meals without getting into a "forking" deadlock! 
+
+`...`
+
+This project is 42's twist on 1965 Edsger Dijkstra's Dining Philosophers problem, a classic synchronization problem in computer science that illustrates the challenges of resource allocation and deadlock avoidance in multi-threaded systems.
+
+The problem is defined as follows: There are five philosophers sitting around a circular table, and each philosopher alternates between thinking and eating. There is a bowl of rice placed between each pair of adjacent philsopher and their neighbooring bowl. Therefore, there are five bowls and five chopsticks in total. The behavior of each philosopher is represented by a concurrent process or thread. To eat, a philosopher needs to pick up the two chopsticks adjacent to them. However, a chopstick can only be held by one philosopher at a time. This creates potential conflict if all philosophers decide to eat simultaneously and try to pick up their left chopstick at the same time. The challenge is to design a solution that ensures the followinf conditions are satisfied:
+
+1- Mutual Exclusion: Only one philosopher can hold a chopstick at a time.
+2- Deadlock-free: The system should not enter a state where all philosophers are waiting for a chopstick indefinitely.
+3- Starvation-free: Every philosopher should get a chance to eat eventually.
+
+In our case, the bowl of rice and chopsticks are replaced by Eminem's favorite meal, his mom's spaghetti, and forks, but the concept stays the same.
 
 ## Instructions
 ### Compilation
