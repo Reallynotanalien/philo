@@ -24,7 +24,7 @@ This README is not done yet so do not bother reading it hahaha or do but whateve
 
 This project is 42's twist on 1965 Edsger Dijkstra's Dining Philosophers problem, a classic synchronization problem in computer science that illustrates the challenges of resource allocation and deadlock avoidance in multi-threaded systems.
 
-The problem is defined as follows: There are five philosophers sitting around a circular table, and each philosopher alternates between thinking and eating. There is a bowl of rice placed between each pair of adjacent philsopher and their neighbooring bowl. Therefore, there are five bowls and five chopsticks in total. The behavior of each philosopher is represented by a concurrent process or thread. To eat, a philosopher needs to pick up the two chopsticks adjacent to them. However, a chopstick can only be held by one philosopher at a time. This creates potential conflict if all philosophers decide to eat simultaneously and try to pick up their left chopstick at the same time. The challenge is to design a solution that ensures the followinf conditions are satisfied:
+The problem is defined as follows: There are five philosophers sitting around a circular table, and each philosopher alternates between thinking and eating. There is a bowl of rice placed between each pair of adjacent philsopher and their neighbooring bowl. Therefore, there are five bowls and five chopsticks in total. The behavior of each philosopher is represented by a concurrent process or thread. To eat, a philosopher needs to pick up the two chopsticks adjacent to them. However, a chopstick can only be held by one philosopher at a time. This creates potential conflict if all philosophers decide to eat simultaneously and try to pick up their left chopstick at the same time. The challenge is to design a solution that ensures the following conditions are satisfied:
 
 1. Mutual Exclusion: Only one philosopher can hold a chopstick at a time.
 2. Deadlock-free: The system should not enter a state where all philosophers are waiting for a chopstick indefinitely.
@@ -32,7 +32,7 @@ The problem is defined as follows: There are five philosophers sitting around a 
 
 In our case, the bowl of rice and chopsticks are replaced by Eminem's favorite meal, his mom's spaghetti, and forks. But the concept stays the same. Also, our simulation can contain a table holding from 1 to 200 philosophers, and they sleep after every meal. Each activity takes them an certain amount of time, and if they haven't eaten for a predefined "time to die", they will DIE. 💀 We do not want that to happen. 
 
-It's also important to note that the philosophers cannot communicate with one another. They do not know if another philosopher is about to die, they are only focused on their own routine. However, if a philosopher dies, the simulation should not continue!
+It's also important to note that the philosophers cannot communicate with one another. They do not know if another philosopher is about to die, they are only focused on their own routine. However, if a philosopher dies, the simulation should not continue! This means we have another important notion to take into consideration: race conditions.
 
 ## Instructions
 ### Compilation
@@ -53,6 +53,9 @@ Example:
 * The time_to_die countdown starts as soon as the philo has started his meal. If he has not eaten *time_to_die* ms after the beginning of his last meal, well you guessed it, he dies.
 * You should never test with more than 200 philosophers! (Do not worry though, I have made sure you don't 😉)
 * You should always test with times higher than 60 ms. 
+
+#### Testing
+https://nafuka11.github.io/philosophers-visualizer/
 
 ## What I would improve
 * The structure of the code to make it faster (checking how much time has passed and seeing what action should be printed in consequence of that). Instead of using my destiny checker hack.
